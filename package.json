@@ -1,0 +1,35 @@
+{
+  "name": "mockingwatt",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A simple app to fake the generation of meter data",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:breakpointer/mockingwatt.git"
+  },
+  "keywords": [
+    "mock",
+    "watt",
+    "meter",
+    "node",
+    "express"
+  ],
+  "author": "Brian Chamberlain",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/breakpointer/mockingwatt/issues"
+  },
+  "homepage": "https://github.com/breakpointer/mockingwatt",
+  "dependencies": {
+    "express": "4.0.x",
+    "body-parser": "1.0.x",
+    "firebase": "1.0.x"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
+}
