@@ -4,6 +4,7 @@ var app = express();
 var http = require('http');
 app.set('views', './views');
 app.set('view engine', 'jade');
+app.use(express.static(__dirname + '/build'));
 
 // Middleware
 var bodyParser = require('body-parser');
