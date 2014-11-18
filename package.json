@@ -28,7 +28,9 @@
     "express": "4.9.x",
     "body-parser": "1.0.x",
     "request": "2.46.x",
-    "jade": "1.7.x"
+    "jade": "1.7.x",
+    "hiredis": "*",
+    "redis": "*"
   },
   "engines": {
     "node": "0.10.x"

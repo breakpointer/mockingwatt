@@ -1,0 +1,11 @@
+[
+  {"timestamp": "2014-11-17 23:23:01 UTC", "meterId": 1, "value": 10, "buildingLocalTime": false},
+  {"timestamp": "2014-11-17 23:24:01 UTC", "meterId": 1, "value": 7,  "buildingLocalTime": false},
+  {"timestamp": "2014-11-17 23:25:01 UTC", "meterId": 1, "value": 13, "buildingLocalTime": false},
+  {"timestamp": "2014-11-17 23:26:01 UTC", "meterId": 1, "value": 18, "buildingLocalTime": false},
+  {"timestamp": "2014-11-17 23:27:01 UTC", "meterId": 1, "value": 20, "buildingLocalTime": false},
+    ....
+    ...
+    ..
+    .  
+]
