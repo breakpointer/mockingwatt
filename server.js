@@ -22,6 +22,7 @@ if (process.env.REDISTOGO_URL) {
 
 app.route('/')
 .get(function (req, res, next){
+  console.log('Rendered')
   return res.render('index', { title: 'MockingWatt energy app', message: 'Hello there!'});
 })
 
@@ -89,7 +90,8 @@ app.route('/usage')
   var currentMinute = date.getMinutes(); 
   for (var i=0; i < slotCount; i++){
     var slotNow = (currentHour * currentMinute) + i;
-    usage.push({"slot": slotNow, "value": 10, "bias": 0});
+    var fakeBias = Math.ceil(Math.cos(slotNow) * 10);
+    usage.push({"slot": slotNow, "value": 10, "bias": fakeBias});
   }
   return res.json(usage);
 })
