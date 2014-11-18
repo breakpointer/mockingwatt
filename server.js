@@ -6,6 +6,9 @@ app.set('views', './views');
 app.set('view engine', 'jade');
 app.use(express.static(__dirname + '/build'));
 
+// Models
+var Usage = require('./lib/usage.js');
+
 // Middleware
 var bodyParser = require('body-parser');
 app.use(bodyParser());
@@ -88,13 +91,11 @@ app.route('/usage')
   var date = new Date();
   var currentHour = date.getHours();
   var currentMinute = date.getMinutes();
-  for (var i=0; i < slotCount; i++){
-    var slotNow = (currentHour * 60) + currentMinute + i;
-    var fakeValue = Math.ceil((Math.sin(slotNow/10)*2) + 15);
-    var fakeBias = Math.ceil(Math.cos(slotNow/10)*10);
-    usage.push({"slot": slotNow, "value": fakeValue, "bias": fakeBias});
-  }
-  return res.json(usage);
+  var startSlot = (currentHour * 60) + currentMinute;
+  Usage.getRange(startSlot, slotCount, function (err, result){
+     if (err) return res.sendStatus(500);
+     return res.json(result);
+  });
 })
 .post(function (req, res, next){
   return res.json({"status":"okay", "message": "Usage adjusted!"})
