@@ -29,8 +29,10 @@ app.route('/meters')
   return res.json([
     {
       "id": 1,
-      "name": "Building Meter",
+      "name": "Mystery Building Meter",
+      "descr": "A meter you might have in your building.",
       "type": "Electricity",
+      "units": "kW",
     }
   ]);
 });
@@ -50,12 +52,14 @@ app.route('/usage')
 .get(function (req, res, next){
   return res.json([
   {"slot": 0,  "value": 10, "bias": 0},
-  {"slot": 15, "value": 11, "bias": -4},
-  {"slot": 30, "value": 13, "bias": 0},
-  {"slot": 45, "value": 15, "bias": 3},
-  {"slot": 60, "value": 20, "bias": 0},
-  {"slot": 75, "value": 12, "bias": 10},
-  ]);
+  {"slot": 1, "value": 11, "bias": -4},
+  {"slot": 2, "value": 13, "bias": 0},
+  {"slot": 3, "value": 15, "bias": 3},
+  {"slot": 4, "value": 20, "bias": 0},
+  {"slot": 5, "value": 12, "bias": 10},
+  ]);})
+.post(function (req, res, next){
+  return res.json({"status":"okay", "message": "Usage adjusted!"})
 });
 
 http.createServer(app).listen(process.env.PORT || 3000);
