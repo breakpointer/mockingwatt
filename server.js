@@ -90,7 +90,7 @@ app.route('/usage')
   var currentMinute = date.getMinutes(); 
   for (var i=0; i < slotCount; i++){
     var slotNow = (currentHour * currentMinute) + i;
-    var fakeBias = Math.ceil(Math.cos(slotNow) * 10);
+    var fakeBias = Math.ceil(Math.cos(slotNow/10)*10);
     usage.push({"slot": slotNow, "value": 10, "bias": fakeBias});
   }
   return res.json(usage);
