@@ -8,7 +8,7 @@ var server = require('gulp-express');
 
 gulp.task('watch', ['setWatch'], function() {
 	server.run({
-	    file: 'app.js'
+	    file: 'server.js'
 	});
   gulp.watch('src/css/**', ['css']);
   gulp.watch('src/images/**', ['images']);
