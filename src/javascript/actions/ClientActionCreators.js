@@ -19,6 +19,11 @@ module.exports = {
   decrementUsage: function() {
     MockingwattWebAPIUtils.decrementUsage();
     MockingwattWebAPIUtils.getUsage();
+  },
+
+  resetUsage: function() {
+    MockingwattWebAPIUtils.resetUsage();
+    MockingwattWebAPIUtils.getUsage();
   }
 
 };

@@ -30,6 +30,16 @@ module.exports = {
     .end(function(res){
       console.log("decremented!")
     });
+  },
+
+  resetUsage: function() {
+
+    request
+    .post('/usage')
+    .send({ action: 'reset' })
+    .end(function(res){
+      console.log("reset!")
+    });
   }
 
 };

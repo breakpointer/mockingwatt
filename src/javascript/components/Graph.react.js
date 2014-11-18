@@ -8,8 +8,12 @@ var Graph = React.createClass({
 
   	var chartData = [];
 
-  	for (var i = 0; i < this.props.usageData.length; i++) {
-  		chartData.push([this.props.usageData[i].slot, this.props.usageData[i].value])
+  	if (this.props.usageData.length > 3) {
+	  	for (var i = 0; i < this.props.usageData.length; i++) {
+	  		chartData.push([this.props.usageData[i].slot, this.props.usageData[i].value])
+	  	}
+  	} else {
+  		chartData = [[31, 32], [32, 33]]
   	}
 
 		$(function () {
