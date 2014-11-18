@@ -38,15 +38,30 @@ app.route('/meters')
   ]);
 });
 
+// Readings endpoint returns reading values waiting to be sent to BOS. They are rendered meter readings from 
+// the values stored in the usage slots. 
+// 
+// == GET requests return reading objects that have not been processed
+// == params: 
+// ==   `processed`: [true, false] are allowed; false is the default. 
+// ==   `limit`: Number of records to return, default 100
+
 app.route('/readings')
 .get(function (req, res, next){
-  return res.json([
-  {"timestamp": "2014-11-17 23:23:01 UTC", "meterId": 1, "value": 10, "buildingLocalTime": false},
-  {"timestamp": "2014-11-17 23:24:01 UTC", "meterId": 1, "value": 7,  "buildingLocalTime": false},
-  {"timestamp": "2014-11-17 23:25:01 UTC", "meterId": 1, "value": 13, "buildingLocalTime": false},
-  {"timestamp": "2014-11-17 23:26:01 UTC", "meterId": 1, "value": 18, "buildingLocalTime": false},
-  {"timestamp": "2014-11-17 23:27:01 UTC", "meterId": 1, "value": 20, "buildingLocalTime": false},
-  ]);
+  var readings = [];
+  var readingCount = 100;
+  if (!isNaN(req.params.limit)){
+    readingCount = parseInt(req.params.limit);
+  } 
+  // faken baken
+  var date = new Date();
+  
+  for (var i=0; i < readingCount; i++){
+    date.setMinutes(date.getMinutes() - i);
+    var reading = {"timestamp": date.toJSON(), "meterId": 1, "value": 10, "buildingLocalTime": false};
+    readings.push(reading);
+  }
+  return res.json(readings);
 });
 
 
@@ -60,7 +75,8 @@ app.route('/readings')
 // == The default request will return 100 time slots based on the current server time going forward.
 // -- 
 // == POST will allow the adjustment of usage data
-// == params: `action`:['increase', 'decrease', 'reset'] are allowed values
+// == params: 
+// ==   `action`:['increase', 'decrease', 'reset'] are allowed values
 // --  
 app.route('/usage')
 .get(function (req, res, next){
@@ -71,7 +87,7 @@ app.route('/usage')
   var date = new Date();
   var currentHour = date.getHours();
   var currentMinute = date.getMinutes(); 
-  for(var i=0; i < slotCount; i++){
+  for (var i=0; i < slotCount; i++){
     var slotNow = (currentHour * currentMinute) + i;
     usage.push({"slot": slotNow, "value": 10, "bias": 0});
   }
