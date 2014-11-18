@@ -1,10 +1,10 @@
-var FooConstants = require('../constants/FooConstants');
+var MockingwattConstants = require('../constants/MockingwattConstants');
 var Dispatcher = require('flux').Dispatcher;
 var copyProperties = require('react/lib/copyProperties');
 
-var PayloadSources = FooConstants.PayloadSources;
+var PayloadSources = MockingwattConstants.PayloadSources;
 
-var FooAppDispatcher = copyProperties(new Dispatcher(), {
+var MockingwattAppDispatcher = copyProperties(new Dispatcher(), {
 
   /**
    * @param {object} action The details of the action, including the action's
@@ -32,4 +32,4 @@ var FooAppDispatcher = copyProperties(new Dispatcher(), {
 
 });
 
-module.exports = FooAppDispatcher;
+module.exports = MockingwattAppDispatcher;
