@@ -5337,3 +5337,8 @@ disabled look for disabled choices in the results dropdown
 * {
   box-sizing: border-box;
 }
+
+.sillyContainer {
+  padding-left: 3.236rem;
+  padding-right: 3.236rem;
+}

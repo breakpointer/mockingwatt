@@ -6,7 +6,7 @@
 var gulp = require('gulp');
 var server = require('gulp-express');
 
-gulp.task('watch', ['setWatch'], function() {
+gulp.task('watch', ['setWatch', 'browserSync'], function() {
 	server.run({
 	    file: 'server.js'
 	});

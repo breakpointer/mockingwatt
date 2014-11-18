@@ -81,4 +81,4 @@ app.route('/usage')
   return res.json({"status":"okay", "message": "Usage adjusted!"})
 });
 
-http.createServer(app).listen(process.env.PORT || 3000);
+http.createServer(app).listen(process.env.PORT || 3001);

@@ -2,7 +2,7 @@
 
 // This file bootstraps the entire application.
 
-var FooApp = require('./components/FooApp.react');
+var MockingwattApp = require('./components/MockingwattApp.react');
 var FooExampleData = require('./FooExampleData');
 var FooWebAPIUtils = require('./utils/FooWebAPIUtils');
 var React = require('react');
@@ -12,6 +12,6 @@ FooExampleData.init(); // load example data into localstorage
 FooWebAPIUtils.getAllBars();
 
 React.renderComponent(
-    <FooApp />,
+    <MockingwattApp />,
     document.getElementById('react')
 );
