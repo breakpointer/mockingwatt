@@ -22,7 +22,7 @@ if (process.env.REDISTOGO_URL) {
 
 app.route('/')
 .get(function (req, res, next){
-  return res.render('index', { title: 'New app', message: 'Hello there!'});
+  return res.render('index', { title: 'MockingWatt energy app', message: 'Hello there!'});
 })
 
 app.route('/meters')
@@ -98,3 +98,5 @@ app.route('/usage')
 });
 
 http.createServer(app).listen(process.env.PORT || 3001);
+
+module.exports = app;

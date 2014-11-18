@@ -5,7 +5,8 @@
   "description": "A simple app to fake the generation of meter data",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha",
+    "start": "app.js"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,8 @@
     "mocha": "2.0.x",
     "pretty-hrtime": "~0.2.1",
     "require-dir": "^0.1.0",
+    "should": "^4.3.0",
+    "supertest": "^0.15.0",
     "vinyl-source-stream": "~0.1.1",
     "watchify": "~1.0.2"
   },
