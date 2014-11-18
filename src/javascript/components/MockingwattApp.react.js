@@ -31,6 +31,8 @@ var MockingwattApp = React.createClass({
 
   render: function() {
 
+    // The highcharts div is a total hack because jquery has to be called after render, and then data doesnt update, and kittens cry. Not at all how react should work but an easy hack for now.
+
     return (
       <div className="sillyContainer">
       	<h1 className="pageHeader">Mockingwatt</h1>
