@@ -49,16 +49,34 @@ app.route('/readings')
   ]);
 });
 
+
+// Usage endpoint returns/updates energy usage values (faked) for 1 minute resolution for a 24 hour period. 
+// The time "slots" are allocated starting at the first minute after midnight (slot 0) all the
+// way up to midnight (slot 1440). The usage `values` are set external to the API and reflect the 
+// baseline usage for this ficticious meter. The `bias` numbers are set by the client. The
+// change when the client posts to the endpoint with an increase, decrease, or reset action.
+// 
+// == GET requests to this end point will return usage data
+// == The default request will return 100 time slots based on the current server time going forward.
+// -- 
+// == POST will allow the adjustment of usage data
+// == params: `action`:['increase', 'decrease', 'reset'] are allowed values
+// --  
 app.route('/usage')
 .get(function (req, res, next){
-  return res.json([
-  {"slot": 0,  "value": 10, "bias": 0},
-  {"slot": 1, "value": 11, "bias": -4},
-  {"slot": 2, "value": 13, "bias": 0},
-  {"slot": 3, "value": 15, "bias": 3},
-  {"slot": 4, "value": 20, "bias": 0},
-  {"slot": 5, "value": 12, "bias": 10},
-  ]);})
+  var usage = [];
+  var slotCount = 100;
+  
+  // Faked for now
+  var date = new Date();
+  var currentHour = date.getHours();
+  var currentMinute = date.getMinutes(); 
+  for(var i=0; i < slotCount; i++){
+    var slotNow = (currentHour * currentMinute) + i;
+    usage.push({"slot": slotNow, "value": 10, "bias": 0});
+  }
+  return res.json(usage);
+})
 .post(function (req, res, next){
   return res.json({"status":"okay", "message": "Usage adjusted!"})
 });
