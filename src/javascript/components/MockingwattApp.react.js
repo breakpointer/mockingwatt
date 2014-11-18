@@ -38,11 +38,19 @@ var MockingwattApp = React.createClass({
           usageData={this.state.usageData}
         />
         <div id="highcharts"></div>
-        <button className="btn btn-lg btn-warning">-</button>
-      	<button className="btn btn-lg btn-success">+</button>
+        <button className="btn btn-lg btn-warning" onClick={this.decrement} >-</button>
+      	<button className="btn btn-lg btn-success" onClick={this.increment} >+</button>
       </div>
     );
   },
+
+  increment: function() {
+    ClientActionCreators.incrementUsage();
+  },
+
+  decrement: function() {
+    ClientActionCreators.decrementUsage();
+  },  
 
   _onChange: function() {
     this.setState(getStateFromStores());

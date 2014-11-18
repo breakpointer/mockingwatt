@@ -10,6 +10,26 @@ module.exports = {
     .end(function(res){
       ServerActionCreators.receiveUsage(res.body);
     });
+  },
+
+  incrementUsage: function() {
+
+    request
+    .post('/usage')
+    .send({ action: 'increase' })
+    .end(function(res){
+      console.log("incremented!")
+    });
+  },
+
+  decrementUsage: function() {
+
+    request
+    .post('/usage')
+    .send({ action: 'decrease' })
+    .end(function(res){
+      console.log("decremented!")
+    });
   }
 
 };

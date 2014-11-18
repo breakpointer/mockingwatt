@@ -8,7 +8,16 @@ var ActionTypes = MockingwattConstants.ActionTypes;
 module.exports = {
 
   getUsage: function() {
-    console.log("client action creator")
+    MockingwattWebAPIUtils.getUsage();
+  },
+
+  incrementUsage: function() {
+    MockingwattWebAPIUtils.incrementUsage();
+    MockingwattWebAPIUtils.getUsage();
+  },
+
+  decrementUsage: function() {
+    MockingwattWebAPIUtils.decrementUsage();
     MockingwattWebAPIUtils.getUsage();
   }
 

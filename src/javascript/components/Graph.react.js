@@ -10,10 +10,7 @@ var Graph = React.createClass({
 
   	for (var i = 0; i < this.props.usageData.length; i++) {
   		chartData.push([this.props.usageData[i].slot, this.props.usageData[i].value])
-  		console.log(chartData);
   	}
-
-  	console.log(chartData);
 
 		$(function () {
 	    $('#highcharts').highcharts({
