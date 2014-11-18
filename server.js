@@ -22,7 +22,8 @@ if (process.env.REDISTOGO_URL) {
 
 app.route('/')
 .get(function (req, res, next){
-  return res.render('index', { title: 'New app', message: 'Hello there!'});
+  console.log('Rendered')
+  return res.render('index', { title: 'MockingWatt energy app', message: 'Hello there!'});
 })
 
 app.route('/meters')
@@ -86,10 +87,12 @@ app.route('/usage')
   // Faked for now
   var date = new Date();
   var currentHour = date.getHours();
-  var currentMinute = date.getMinutes(); 
+  var currentMinute = date.getMinutes();
   for (var i=0; i < slotCount; i++){
-    var slotNow = (currentHour * currentMinute) + i;
-    usage.push({"slot": slotNow, "value": 10, "bias": 0});
+    var slotNow = (currentHour * 60) + currentMinute + i;
+    var fakeValue = Math.ceil((Math.sin(slotNow/10)*2) + 15);
+    var fakeBias = Math.ceil(Math.cos(slotNow/10)*10);
+    usage.push({"slot": slotNow, "value": fakeValue, "bias": fakeBias});
   }
   return res.json(usage);
 })
@@ -98,3 +101,5 @@ app.route('/usage')
 });
 
 http.createServer(app).listen(process.env.PORT || 3001);
+
+module.exports = app;
