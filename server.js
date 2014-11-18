@@ -87,11 +87,12 @@ app.route('/usage')
   // Faked for now
   var date = new Date();
   var currentHour = date.getHours();
-  var currentMinute = date.getMinutes(); 
+  var currentMinute = date.getMinutes();
   for (var i=0; i < slotCount; i++){
-    var slotNow = (currentHour * currentMinute) + i;
+    var slotNow = (currentHour * 60) + currentMinute + i;
+    var fakeValue = Math.ceil((Math.sin(slotNow/10)*2) + 15);
     var fakeBias = Math.ceil(Math.cos(slotNow/10)*10);
-    usage.push({"slot": slotNow, "value": 10, "bias": fakeBias});
+    usage.push({"slot": slotNow, "value": fakeValue, "bias": fakeBias});
   }
   return res.json(usage);
 })
