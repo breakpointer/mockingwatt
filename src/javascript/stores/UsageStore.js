@@ -10,7 +10,6 @@ var _usageData = [{}];
 
 function _addUsageData(data) {
   _usageData = data;
-  console.log(_usageData);
 }
 
 var UsageStore = merge(EventEmitter.prototype, {
@@ -27,7 +26,6 @@ var UsageStore = merge(EventEmitter.prototype, {
   },
 
   getUsageData: function() {
-    console.log(_usageData);
     return _usageData;
   }
 

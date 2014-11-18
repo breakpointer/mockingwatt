@@ -15,6 +15,7 @@ var MockingwattApp = React.createClass({
 
   getInitialState: function() {
 
+    // Make a request for the usageData once, before this component mounts.
     ClientActionCreators.getUsage()
 
     return getStateFromStores();
@@ -30,12 +31,13 @@ var MockingwattApp = React.createClass({
 
   render: function() {
 
-    console.log(this.state);
-
     return (
       <div className="sillyContainer">
       	<h1 className="pageHeader">Mockingwatt</h1>
-      	<Graph />
+      	<Graph
+          usageData={this.state.usageData}
+        />
+        <div id="highcharts"></div>
         <button className="btn btn-lg btn-warning">-</button>
       	<button className="btn btn-lg btn-success">+</button>
       </div>

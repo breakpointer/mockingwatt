@@ -8,7 +8,6 @@ module.exports = {
     request
     .get('/usage')
     .end(function(res){
-      console.log(res)
       ServerActionCreators.receiveUsage(res.body);
     });
   }
