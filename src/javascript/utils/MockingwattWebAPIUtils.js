@@ -16,7 +16,7 @@ module.exports = {
 
     request
     .post('/usage')
-    .send({ action: 'increase' })
+    .send({ action: 'increase', slot: 920 })
     .end(function(res){
       console.log("incremented!")
     });
@@ -26,7 +26,7 @@ module.exports = {
 
     request
     .post('/usage')
-    .send({ action: 'decrease' })
+    .send({ action: 'decrease', slot: 920 })
     .end(function(res){
       console.log("decremented!")
     });

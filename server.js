@@ -83,11 +83,12 @@ app.route('/readings')
 // == The default request will return 100 time slots based on the current server time going forward.
 // == params:
 // ==   `limit`: the number of slots to return (default is 100)
+// ==   `slot`: the slot to start for returning the usage 
 // -- 
 // == POST will allow the adjustment of usage data
 // == params: 
 // ==   `action`:['increase', 'decrease', 'reset'] are allowed values
-// --  
+// ==   `slot`: the slot to start the application of the adjustment  
 app.route('/usage')
 .get(function (req, res, next){
   console.log('GET /usage ', inspect(req.params));
@@ -95,10 +96,16 @@ app.route('/usage')
   // Based on the current sever time we return
   // the slot list from now to 100 minutes from now (unless params override).
   var slotCount = parseInt(req.params['limit'] || '100');  
-  var date = new Date();
-  var currentHour = date.getHours();
-  var currentMinute = date.getMinutes();
-  var startSlot = (currentHour * 60) + currentMinute;
+  
+  var startSlot = 0;
+  if (req.params['slot']){ 
+    startSlot = parseInt(req.params['slot']);
+  } else { 
+    var date = new Date();
+    var currentHour = date.getHours();
+    var currentMinute = date.getMinutes();
+    startSlot = (currentHour * 60) + currentMinute;
+  } 
   
   usage.get(startSlot, slotCount, function (err, result){
     if (err) return res.sendStatus(500);
@@ -108,10 +115,16 @@ app.route('/usage')
 .post(function (req, res, next){
   console.log('POST /usage ', inspect(req.body));
   var action = req.body.action;
-  var date = new Date();
-  var currentHour = date.getHours();
-  var currentMinute = date.getMinutes();
-  var startSlot = (currentHour * 60) + currentMinute;
+  
+  var startSlot = 0;
+  if (req.body.slot){ 
+    startSlot = parseInt(req.body.slot);
+  } else { 
+    var date = new Date();
+    var currentHour = date.getHours();
+    var currentMinute = date.getMinutes();
+    startSlot = (currentHour * 60) + currentMinute;
+  } 
   
   switch(action) {
     case 'reset':

@@ -103,10 +103,19 @@ var Graph = React.createClass({
             label: {
               text: 'Past consumption'
             },
-            from: 710,
-            to: 760,
+            from: 840,
+            to: 920,
             zIndex: 1101
           }],
+          plotLines: [{
+            color: 'red',
+            label: {
+              text: 'Current consumption'
+            },
+            value: 920,
+            width: 3,
+            zIndex: 1105
+          }]
           
         }
 	    });
