@@ -1,36 +1,41 @@
 var express = require('express');
 
+// Express app configuration and setup
 var app = express();
 var http = require('http');
 app.set('views', './views');
 app.set('view engine', 'jade');
 app.use(express.static(__dirname + '/build'));
 
-// Models
-var Usage = require('./lib/usage.js');
+// Utils and Helpers
+var util = require('util');
+var inspect = util.inspect;
 
 // Middleware
 var bodyParser = require('body-parser');
-app.use(bodyParser());
+app.use(bodyParser.json());
 
-// Store
-if (process.env.REDISTOGO_URL) {
-  var rtg   = require("url").parse(process.env.REDISTOGO_URL);
-  var redis = require("redis").createClient(rtg.port, rtg.hostname);
+// Environment specific services and configurations
+var appServices = require('./lib/app_services.js');
+var envName = process.env.ENV_NAME || 'development';
+var services = appServices.get(process.env, envName);
 
-  redis.auth(rtg.auth.split(":")[1]);
-} else {
-   var redis = require("redis").createClient();
-}
+// Models
+var UsageModel = require('./lib/usage.js');
+var usage = new UsageModel(services.redis);
 
+// Serving up the client side app
+// The root page loads all the react code 
 app.route('/')
 .get(function (req, res, next){
-  console.log('Rendered')
-  return res.render('index', { title: 'MockingWatt energy app', message: 'Hello there!'});
+  console.log('GET /');
+  return res.render('index');
 })
 
+// Only one meter for now
 app.route('/meters')
 .get(function (req, res, next){
+  console.log('GET /meters')
   return res.json([
     {
       "id": 1,
@@ -49,17 +54,16 @@ app.route('/meters')
 // == params: 
 // ==   `processed`: [true, false] are allowed; false is the default. 
 // ==   `limit`: Number of records to return, default 100
-
 app.route('/readings')
 .get(function (req, res, next){
+  console.log('GET /readings ', inspect(req.params));
+  
   var readings = [];
   var readingCount = 100;
   if (!isNaN(req.params.limit)){
     readingCount = parseInt(req.params.limit);
   } 
-  // faken baken
-  var date = new Date();
-  
+  var date = new Date();  
   for (var i=0; i < readingCount; i++){
     date.setMinutes(date.getMinutes() - i);
     var reading = {"timestamp": date.toJSON(), "meterId": 1, "value": 10, "buildingLocalTime": false};
@@ -77,6 +81,8 @@ app.route('/readings')
 // 
 // == GET requests to this end point will return usage data
 // == The default request will return 100 time slots based on the current server time going forward.
+// == params:
+// ==   `limit`: the number of slots to return (default is 100)
 // -- 
 // == POST will allow the adjustment of usage data
 // == params: 
@@ -84,21 +90,54 @@ app.route('/readings')
 // --  
 app.route('/usage')
 .get(function (req, res, next){
-  var usage = [];
-  var slotCount = 100;
+  console.log('GET /usage ', inspect(req.params));
   
-  // Faked for now
+  // Based on the current sever time we return
+  // the slot list from now to 100 minutes from now (unless params override).
+  var slotCount = parseInt(req.params['limit'] || '100');  
   var date = new Date();
   var currentHour = date.getHours();
   var currentMinute = date.getMinutes();
   var startSlot = (currentHour * 60) + currentMinute;
-  Usage.getRange(startSlot, slotCount, function (err, result){
-     if (err) return res.sendStatus(500);
-     return res.json(result);
+  
+  usage.get(startSlot, slotCount, function (err, result){
+    if (err) return res.sendStatus(500);
+    return res.json(result);
   });
 })
 .post(function (req, res, next){
-  return res.json({"status":"okay", "message": "Usage adjusted!"})
+  console.log('POST /usage ', inspect(req.body));
+  var action = req.body.action;
+  var date = new Date();
+  var currentHour = date.getHours();
+  var currentMinute = date.getMinutes();
+  var startSlot = (currentHour * 60) + currentMinute;
+  
+  switch(action) {
+    case 'reset':
+      // Reset the usage values 
+      usage.reset(function (err, result){
+        if (err) return res.sendStatus(500);
+        return res.json({"status":"okay", "message": "Usage values reset"})
+      });
+      break;
+    case 'increase':
+      // Increase usage values
+      usage.increase(startSlot, function (err, result){
+        if (err) return res.sendStatus(500);
+        return res.json({"status":"okay", "message": "Usage values increased"})
+      });
+      break;
+    case 'decrease':
+      // Decrease usage values
+      usage.decrease(startSlot, function (err, result){
+        if (err) return res.sendStatus(500);
+        return res.json({"status":"okay", "message": "Usage values decreased"})
+      });
+      break;
+    default:
+      // do nothing
+  }
 });
 
 http.createServer(app).listen(process.env.PORT || 3001);

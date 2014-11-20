@@ -35,14 +35,15 @@ var MockingwattApp = React.createClass({
 
     return (
       <div className="sillyContainer">
-      	<h1 className="pageHeader">Mockingwatt</h1>
+        <img className="meterImg" src="images/energy-meter.jpg" />
+      	<h1 className="pageHeader">Mockingwatt - Artificial Load profile </h1>
       	<Graph
           usageData={this.state.usageData}
         />
         <div id="highcharts"></div>
         <button className="btn btn-lg btn-info" onClick={this.reset} >Reset</button>
-        <button className="btn btn-lg btn-warning" onClick={this.decrement} >-</button>
-      	<button className="btn btn-lg btn-success" onClick={this.increment} >+</button>
+        <button className="btn btn-lg btn-warning" onClick={this.decrement} > Reduce Energy Usage</button>
+      	<button className="btn btn-lg btn-success" onClick={this.increment} > Increase Energy Usage</button>
       </div>
     );
   },

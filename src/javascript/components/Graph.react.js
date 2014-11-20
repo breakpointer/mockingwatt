@@ -39,10 +39,21 @@ var Graph = React.createClass({
 				  	fontFamily: 'Avenir-Medium'
 					}
 				},
-				colors: ['#d53e4f', '#fee08b', '#3288bd'],
 				credits: {
 				    enabled: false
 				},
+        title: {
+            text: '',
+            style: {
+                display: 'none'
+            }
+        },
+        subtitle: {
+            text: '',
+            style: {
+                display: 'none'
+            }
+        },
 				legend: {
 					enabled: false
 				},
@@ -53,42 +64,41 @@ var Graph = React.createClass({
             }
           },
           area: {
-            fillOpactiy: 1.0,
-            lineColor: '#3288bd'
+            fillOpacity: 1.0,
+            lineWidth: 1,
+            lineColor: '#aaa'
           }
         },
 				series: [{
           type: 'area',
 			    name: 'Green Data',
-          color: '#99d594',
-          fillOpactiy: 1.0,
+          color: '#1c9632',
 			    data: greenData,
           index: 100
 				},
         {
           type: 'area',
           name: 'Red Data',
-          color: '#d53e4f',
-          fillOpactiy: 1.0,
+          color: '#b32b22',
           data: redData,
           index: 10
         },
         {
           type: 'area',
           name: 'Yellow Data',
-          color: '#F7F7F7',
-          fillOpactiy: 1.0,
+          color: '#f4f555',
           data: yellowData,
           index: 1000
         },
         {
           type: 'line',
           name: 'Baseline',
-          color: '#666',
-          fillOpactiy: 1.0,
-          data: greenData,
-          index: 1000
-        }]
+          color: '#333',
+          data: yellowData,
+          lineWidth: 2,
+          index: 1100
+        }
+        ]
 	    });
 		});
 
