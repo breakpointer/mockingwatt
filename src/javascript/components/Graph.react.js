@@ -11,19 +11,22 @@ var Graph = React.createClass({
     var consumptionData = [];
 
     for (var i = 0; i < this.props.usageData.length; i++) {
-
+      var slot = this.props.usageData[i].slot;
+      var bias = this.props.usageData[i].bias;
+      var value = this.props.usageData[i].value;
+      
       // tracks the current consumption 
-      var consumptionValue = this.props.usageData[i].value + this.props.usageData[i].bias; 
-      consumptionData.push([this.props.usageData[i].slot, consumptionValue])
+      consumptionData.push([slot, value + bias]);
       
       // tracks what would normally be consumed
-      baseLineData.push([this.props.usageData[i].slot, this.props.usageData[i].value])
-
-      if (this.props.usageData[i].bias < 0) {
-        var maskingPoint = this.props.usageData[i].value + this.props.usageData[i].bias
-        maskingData.push([this.props.usageData[i].slot, maskingPoint])
-      } else 
-        maskingData.push([this.props.usageData[i].slot, this.props.usageData[i].value])
+      baseLineData.push([slot, value]);
+      
+      // Add only negative bias values to the data
+      // This will expose the green baseline graph behind the topmost mask graph
+      if (bias < 0) {
+        maskingData.push([slot, value + bias]);
+      } else {
+        maskingData.push([slot, value]);
       }
     }
     
@@ -93,7 +96,19 @@ var Graph = React.createClass({
           data: consumptionData,
           lineWidth: 3,
           index: 1100
-        }]
+        }],
+        xAxis: {
+          plotBands: [{
+            color: 'rgba(128,128,128,0.5)',
+            label: {
+              text: 'Past consumption'
+            },
+            from: 710,
+            to: 760,
+            zIndex: 1101
+          }],
+          
+        }
 	    });
 		});
 
