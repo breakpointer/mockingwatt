@@ -9,6 +9,7 @@ var Graph = React.createClass({
   	var redData = [];
     var greenData = [];
     var yellowData = [];
+    var consumptionData = [];
 
   	for (var i = 0; i < this.props.usageData.length; i++) {
 
@@ -19,8 +20,11 @@ var Graph = React.createClass({
       } else {
         redData.push([this.props.usageData[i].slot, this.props.usageData[i].value])
       }
-
-
+      
+      // tracks the current consumption 
+      var consumptionValue = this.props.usageData[i].value + this.props.usageData[i].bias; 
+      consumptionData.push([this.props.usageData[i].slot, consumptionValue])
+      
   		greenData.push([this.props.usageData[i].slot, this.props.usageData[i].value])
 
       if (this.props.usageData[i].bias < 0) {
@@ -66,7 +70,7 @@ var Graph = React.createClass({
           area: {
             fillOpacity: 1.0,
             lineWidth: 1,
-            lineColor: '#aaa'
+            lineColor: '#fafafa'
           }
         },
 				series: [{
@@ -86,7 +90,7 @@ var Graph = React.createClass({
         {
           type: 'area',
           name: 'Yellow Data',
-          color: '#f4f555',
+          color: '#fff',
           data: yellowData,
           index: 1000
         },
@@ -94,11 +98,10 @@ var Graph = React.createClass({
           type: 'line',
           name: 'Baseline',
           color: '#333',
-          data: yellowData,
-          lineWidth: 2,
+          data: consumptionData,
+          lineWidth: 3,
           index: 1100
-        }
-        ]
+        }]
 	    });
 		});
 
