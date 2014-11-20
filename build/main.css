@@ -5342,3 +5342,14 @@ disabled look for disabled choices in the results dropdown
   padding-left: 3.236rem;
   padding-right: 3.236rem;
 }
+
+.sillyContainer img {
+  width: 100;
+  height: 100;
+  float: left;
+  margin-right: 0.809rem;
+}
+
+.sillyContainer h1 {
+  line-height: 6.472rem;
+}

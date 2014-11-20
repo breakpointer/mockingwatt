@@ -4,3 +4,14 @@
 	padding-left: calc(2 * var(--lineHeight-base));
 	padding-right: calc(2 * var(--lineHeight-base));
 }
+
+.sillyContainer img {
+  width: 100;
+  height: 100;
+  float: left;
+  margin-right: calc(var(--lineHeight-base) / 2);
+}
+
+.sillyContainer h1 {
+  line-height: calc(4 * var(--lineHeight-base));
+}
