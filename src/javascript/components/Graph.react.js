@@ -6,36 +6,27 @@ var Graph = React.createClass({
 
   render: function() {
 
-  	var redData = [];
-    var greenData = [];
-    var yellowData = [];
+    var baseLineData = [];
+    var maskingData = [];
     var consumptionData = [];
 
-  	for (var i = 0; i < this.props.usageData.length; i++) {
+    for (var i = 0; i < this.props.usageData.length; i++) {
 
-      // Subtract the bias from the value
-      if (this.props.usageData[i].bias > 0) {
-        var biasedData = this.props.usageData[i].value + this.props.usageData[i].bias
-        redData.push([this.props.usageData[i].slot, biasedData])
-      } else {
-        redData.push([this.props.usageData[i].slot, this.props.usageData[i].value])
-      }
-      
       // tracks the current consumption 
       var consumptionValue = this.props.usageData[i].value + this.props.usageData[i].bias; 
       consumptionData.push([this.props.usageData[i].slot, consumptionValue])
       
-  		greenData.push([this.props.usageData[i].slot, this.props.usageData[i].value])
+      // tracks what would normally be consumed
+      baseLineData.push([this.props.usageData[i].slot, this.props.usageData[i].value])
 
       if (this.props.usageData[i].bias < 0) {
-        var foo = this.props.usageData[i].value + this.props.usageData[i].bias
-        yellowData.push([this.props.usageData[i].slot, foo])
-      } else {
-        yellowData.push([this.props.usageData[i].slot, this.props.usageData[i].value])
+        var maskingPoint = this.props.usageData[i].value + this.props.usageData[i].bias
+        maskingData.push([this.props.usageData[i].slot, maskingPoint])
+      } else 
+        maskingData.push([this.props.usageData[i].slot, this.props.usageData[i].value])
       }
-
-  	}
-
+    }
+    
 		$(function () {
 	    $('#highcharts').highcharts({
 				chart: {
@@ -73,30 +64,31 @@ var Graph = React.createClass({
             lineColor: '#fafafa'
           }
         },
-				series: [{
-          type: 'area',
-			    name: 'Green Data',
-          color: '#1c9632',
-			    data: greenData,
-          index: 100
-				},
+				series: [
         {
           type: 'area',
-          name: 'Red Data',
+          name: 'Consumption',
           color: '#b32b22',
-          data: redData,
+          data: consumptionData,
           index: 10
         },
         {
           type: 'area',
-          name: 'Yellow Data',
+          name: 'Baseline',
+          color: '#1c9632',
+          data: baseLineData,
+          index: 100
+        },
+        {
+          type: 'area',
+          name: 'Graph Mask',
           color: '#fff',
-          data: yellowData,
+          data: maskingData,
           index: 1000
         },
         {
           type: 'line',
-          name: 'Baseline',
+          name: 'Energy Consumption',
           color: '#333',
           data: consumptionData,
           lineWidth: 3,

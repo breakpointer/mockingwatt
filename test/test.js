@@ -38,7 +38,7 @@ describe('The API', function(){
             meter.should.have.property('descr');
             meter.should.have.property('type');
             meter.should.have.property('units');
-            done();           
+            done();
           });
       });
     });  // GET
