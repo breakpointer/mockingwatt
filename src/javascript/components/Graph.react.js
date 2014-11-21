@@ -139,7 +139,9 @@ var Graph = React.createClass({
            id: 'currentLine',
            color: 'red',
            label: {
-             text: 'Current consumption'
+             text: 'Current consumption',
+             verticalAlign: 'middle',
+             textAlign: 'center'
            },
            value: currentSlot,
            width: 3,
@@ -150,11 +152,9 @@ var Graph = React.createClass({
 
     }
 
-
     makePlotBar();
-
     setInterval(makePlotBar, 2000);
-
+    
   }
 
 });

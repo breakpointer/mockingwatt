@@ -8,7 +8,7 @@ var CHANGE_EVENT = 'change';
 
 var _usageData = [{}];
 
-var _usageSlot = {};
+var _usageSlot = {"slot": 0, "value": 0, "bias": 0};
 
 function _addUsageData(data) {
 
@@ -40,7 +40,6 @@ var UsageStore = merge(EventEmitter.prototype, {
   },
 
   getUsageSlot: function() {
-    console.log(_usageSlot);
     return _usageSlot;
   }
 

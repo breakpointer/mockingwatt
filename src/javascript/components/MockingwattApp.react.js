@@ -8,8 +8,6 @@ var ClientActionCreators = require('../actions/ClientActionCreators');
 
 function getStateFromStores() {
 
-  console.log(ScopeStore.getScope())
-
   return {
     usageData: UsageStore.getUsageData(),
     usageSlot: UsageStore.getUsageSlot(),
@@ -42,15 +40,15 @@ var MockingwattApp = React.createClass({
 
   render: function() {
 
-    console.log(this.state);
+    console.log('in render, current state', this.state);
 
     // The highcharts div is a total hack because jquery has to be called after render, and then data doesnt update, and kittens cry. Not at all how react should work but an easy hack for now.
 
     return (
       <div className="sillyContainer">
-        <p>{this.state.usageSlot}</p>
         <img className="meterImg" src="images/energy-meter.jpg" />
       	<h1 className="pageHeader">Mockingwatt - Artificial Load profile </h1>
+        <h3>Current consumption: <span id='consumptionValue'>{this.state.usageSlot.value}</span> kW</h3>
       	<Graph
           usageData={this.state.usageData}
           usageSlot={this.state.usageSlot}
