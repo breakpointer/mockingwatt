@@ -117,7 +117,7 @@ var Graph = React.createClass({
       var currentMinute = date.getMinutes();
       currentSlot = (currentHour * 60) + currentMinute;
 
-      var startSlot = currentSlot - 60;
+      var startSlot = currentSlot - 40;
 
       $(function () {
         var chart = $('#highcharts').highcharts();
