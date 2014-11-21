@@ -8,7 +8,17 @@ var CHANGE_EVENT = 'change';
 
 var _usageData = [{}];
 
+var _usageSlot = {};
+
 function _addUsageData(data) {
+
+  var date = new Date();
+  var currentHour = date.getHours();
+  var currentMinute = date.getMinutes();
+  currentSlot = (currentHour * 60) + currentMinute;
+
+  _usageSlot = $.grep(data, function(e){ return e.slot == currentSlot;});
+
   _usageData = data;
 }
 
@@ -27,6 +37,11 @@ var UsageStore = merge(EventEmitter.prototype, {
 
   getUsageData: function() {
     return _usageData;
+  },
+
+  getUsageSlot: function() {
+    console.log(_usageSlot);
+    return _usageSlot;
   }
 
 });

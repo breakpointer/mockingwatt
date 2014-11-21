@@ -91,15 +91,15 @@ app.route('/readings')
 // ==   `slot`: the slot to start the application of the adjustment  
 app.route('/usage')
 .get(function (req, res, next){
-  console.log('GET /usage ', inspect(req.params));
+  console.log('GET /usage ', inspect(req.query));
   
   // Based on the current sever time we return
-  // the slot list from now to 100 minutes from now (unless params override).
-  var slotCount = parseInt(req.params['limit'] || '100');  
+  // the slot list from now to 100 minutes from now (unless query override).
+  var slotCount = parseInt(req.query['limit'] || '100');  
   
   var startSlot = 0;
-  if (req.params['slot']){ 
-    startSlot = parseInt(req.params['slot']);
+  if (req.query['slot']){ 
+    startSlot = parseInt(req.query['slot']);
   } else { 
     var date = new Date();
     var currentHour = date.getHours();

@@ -3,10 +3,13 @@ var request = require('superagent');
 
 module.exports = {
 
-  getUsage: function() {
+  getUsage: function(scope) {
+
+    console.log(scope);
 
     request
     .get('/usage')
+    .query({ slot: scope })
     .end(function(res){
       ServerActionCreators.receiveUsage(res.body);
     });
@@ -16,7 +19,7 @@ module.exports = {
 
     request
     .post('/usage')
-    .send({ action: 'increase', slot: 920 })
+    .send({ action: 'increase' })
     .end(function(res){
       console.log("incremented!")
     });
@@ -26,7 +29,7 @@ module.exports = {
 
     request
     .post('/usage')
-    .send({ action: 'decrease', slot: 920 })
+    .send({ action: 'decrease' })
     .end(function(res){
       console.log("decremented!")
     });

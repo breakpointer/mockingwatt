@@ -6,6 +6,8 @@ var Graph = React.createClass({
 
   render: function() {
 
+    console.log(this.props)
+
     var baseLineData = [];
     var maskingData = [];
     var consumptionData = [];
@@ -96,28 +98,7 @@ var Graph = React.createClass({
           data: consumptionData,
           lineWidth: 3,
           index: 1100
-        }],
-        xAxis: {
-          plotBands: [{
-            color: 'rgba(128,128,128,0.5)',
-            label: {
-              text: 'Past consumption'
-            },
-            from: 840,
-            to: 920,
-            zIndex: 1101
-          }],
-          plotLines: [{
-            color: 'red',
-            label: {
-              text: 'Current consumption'
-            },
-            value: 920,
-            width: 3,
-            zIndex: 1105
-          }]
-          
-        }
+        }]
 	    });
 		});
 
@@ -125,6 +106,53 @@ var Graph = React.createClass({
 	  	<div id="foo">
 	  	</div>
     );
+  },
+
+  componentDidMount: function() {
+
+    var makePlotBar = function() {
+
+      var date = new Date();
+      var currentHour = date.getHours();
+      var currentMinute = date.getMinutes();
+      currentSlot = (currentHour * 60) + currentMinute;
+
+      var startSlot = currentSlot - 60;
+
+      $(function () {
+        var chart = $('#highcharts').highcharts();
+        chart.xAxis[0].removePlotBand('1');
+
+        chart.xAxis[0].addPlotBand({
+          id: "1",
+          color: 'rgba(128,128,128,0.5)',
+          label: {
+            text: 'Past consumption'
+          },
+          from: startSlot,
+          to: currentSlot,
+          zIndex: 1101
+        })
+
+        chart.xAxis[0].addPlotLine({
+           color: 'red',
+           label: {
+             text: 'Current consumption'
+           },
+           value: currentSlot,
+           width: 3,
+           zIndex: 1105
+        })
+
+      })
+
+    }
+
+
+    makePlotBar();
+
+    setInterval(makePlotBar, 2000);
+
   }
 
 });
