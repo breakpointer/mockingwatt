@@ -43,6 +43,24 @@ module.exports = {
     .end(function(res){
       console.log("reset!")
     });
+  },
+  
+  getScope: function() {
+
+    console.log("get scope")
+
+    var date = new Date();
+    var currentHour = date.getHours();
+    var currentMinute = date.getMinutes();
+    currentSlot = (currentHour * 60) + currentMinute;
+
+    console.log(currentSlot);
+
+    var scope = currentSlot - 40;
+
+    return scope;
+
   }
+
 
 };

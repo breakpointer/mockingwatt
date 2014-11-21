@@ -121,10 +121,11 @@ var Graph = React.createClass({
 
       $(function () {
         var chart = $('#highcharts').highcharts();
-        chart.xAxis[0].removePlotBand('1');
+        chart.xAxis[0].removePlotBand('pastBand');
+        chart.xAxis[0].removePlotLine('currentLine');
 
         chart.xAxis[0].addPlotBand({
-          id: "1",
+          id: 'pastBand',
           color: 'rgba(128,128,128,0.5)',
           label: {
             text: 'Past consumption'
@@ -135,6 +136,7 @@ var Graph = React.createClass({
         })
 
         chart.xAxis[0].addPlotLine({
+           id: 'currentLine',
            color: 'red',
            label: {
              text: 'Current consumption'

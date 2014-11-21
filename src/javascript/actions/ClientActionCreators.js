@@ -7,41 +7,22 @@ var ActionTypes = MockingwattConstants.ActionTypes;
 
 module.exports = {
 
-  getUsage: function(scope) {
-    console.log(scope);
-    MockingwattWebAPIUtils.getUsage(scope);
+  getUsage: function() {
+    MockingwattWebAPIUtils.getUsage(MockingwattWebAPIUtils.getScope());
   },
 
-  incrementUsage: function(scope) {
+  incrementUsage: function() {
     MockingwattWebAPIUtils.incrementUsage();
-    MockingwattWebAPIUtils.getUsage(scope);
+    MockingwattWebAPIUtils.getUsage(MockingwattWebAPIUtils.getScope());
   },
 
-  decrementUsage: function(scope) {
+  decrementUsage: function() {
     MockingwattWebAPIUtils.decrementUsage();
-    MockingwattWebAPIUtils.getUsage(scope);
+    MockingwattWebAPIUtils.getUsage(MockingwattWebAPIUtils.getScope());
   },
 
-  resetUsage: function(scope) {
+  resetUsage: function() {
     MockingwattWebAPIUtils.resetUsage();
-    MockingwattWebAPIUtils.getUsage(scope);
-  },
-
-  getScope: function() {
-
-    console.log("get scope")
-
-    var date = new Date();
-    var currentHour = date.getHours();
-    var currentMinute = date.getMinutes();
-    currentSlot = (currentHour * 60) + currentMinute;
-
-    console.log(currentSlot);
-
-    var scope = currentSlot - 60;
-
-    return scope;
-
+    MockingwattWebAPIUtils.getUsage(MockingwattWebAPIUtils.getScope());
   }
-
 };

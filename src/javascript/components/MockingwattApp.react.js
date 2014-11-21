@@ -22,17 +22,7 @@ var MockingwattApp = React.createClass({
   getInitialState: function() {
 
     // Make a request for the usageData once, before this component mounts.
-
-    var date = new Date();
-    var currentHour = date.getHours();
-    var currentMinute = date.getMinutes();
-    currentSlot = (currentHour * 60) + currentMinute;
-
-    console.log(currentSlot);
-
-    var scope = currentSlot - 60
-
-    ClientActionCreators.getUsage(scope)
+    ClientActionCreators.getUsage()
 
     return getStateFromStores();
   },
@@ -41,7 +31,7 @@ var MockingwattApp = React.createClass({
     UsageStore.addChangeListener(this._onChange);
     ScopeStore.addChangeListener(this._onChange);
 
-    setInterval(ClientActionCreators.getScope(), 2000);
+    //setInterval(ClientActionCreators.getScope(), 2000);
 
   },
 
