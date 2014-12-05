@@ -13,40 +13,75 @@ var Graph = React.createClass({
     var consumptionData = [];
 
     for (var i = 0; i < this.props.usageData.length; i++) {
+      
       var slot = this.props.usageData[i].slot;
+      var now = new Date();
+      var timestamp = Date.UTC(now.getYear(), now.getMonth(), now.getDay(), Math.floor(slot/60), (slot % 60));
       var bias = this.props.usageData[i].bias;
       var value = this.props.usageData[i].value;
       
       // tracks the current consumption 
-      consumptionData.push([slot, value + bias]);
+      consumptionData.push([timestamp, value + bias]);
       
       // tracks what would normally be consumed
-      baseLineData.push([slot, value]);
+      baseLineData.push([timestamp, value]);
       
       // Add only negative bias values to the data
       // This will expose the green baseline graph behind the topmost mask graph
       if (bias < 0) {
-        maskingData.push([slot, value + bias]);
+        maskingData.push([timestamp, value + bias]);
       } else {
-        maskingData.push([slot, value]);
+        maskingData.push([timestamp, value]);
       }
     }
     
-		$(function () {
-	    $('#highcharts').highcharts({
-				chart: {
-				  style: {
-				  	fontFamily: 'Avenir-Medium'
-					}
-				},
-				credits: {
-				    enabled: false
-				},
+    $(function () {
+      $('#highcharts').highcharts({
+        chart: {
+          style: {
+            fontFamily: 'Avenir-Medium'
+          }
+        },
+        credits: {
+            enabled: false
+        },
         title: {
             text: '',
             style: {
                 display: 'none'
             }
+        },
+        xAxis: {
+          type: 'datetime',
+          dateTimeLabelFormats: {
+              hour: '%I %p',
+              minute: '%I:%M %p'
+          },
+          title: {
+            text: "Time",
+            margin: 20,
+            style: {
+              fontWeight: "bold",
+              fontSize: "1.8em"
+            }
+          }
+        },
+        yAxis: {
+          title: {
+            text: "kW",
+            margin: 15,
+            style: {
+              fontWeight: "bold",
+              fontSize: "1.8em",
+            }
+          }
+        },
+        tooltip: {
+          dateTimeLabelFormats: {
+            hour: '%I %p',
+            minute: '%I:%M %p'
+          },
+          valueDecimals: 2,
         },
         subtitle: {
             text: '',
@@ -54,42 +89,44 @@ var Graph = React.createClass({
                 display: 'none'
             }
         },
-				legend: {
-					enabled: false
-				},
+        legend: {
+          enabled: false
+        },
         plotOptions: {
           series: {
             marker: {
               enabled: false
-            }
+            },
+            pointInterval: 1000 // one minute
           },
           area: {
             fillOpacity: 1.0,
             lineWidth: 1,
-            lineColor: '#fafafa'
+            lineColor: '#fafafa',
+            pointInterval: 1000 // one minute
           }
         },
-				series: [
+        series: [
         {
           type: 'area',
           name: 'Consumption',
           color: '#b32b22',
           data: consumptionData,
-          index: 10
+          index: 10,
         },
         {
           type: 'area',
           name: 'Baseline',
           color: '#1c9632',
           data: baseLineData,
-          index: 100
+          index: 20
         },
         {
           type: 'area',
           name: 'Graph Mask',
           color: '#fff',
           data: maskingData,
-          index: 1000
+          index: 30
         },
         {
           type: 'line',
@@ -97,30 +134,28 @@ var Graph = React.createClass({
           color: '#333',
           data: consumptionData,
           lineWidth: 3,
-          index: 1100
+          index: 40
         }]
-	    });
-		});
+      });
+    });
 
     return (
-	  	<div id="foo">
-	  	</div>
+      <div id="foo">
+      </div>
     );
   },
 
   componentDidMount: function() {
 
     var makePlotBar = function() {
-
-      var date = new Date();
-      var currentHour = date.getHours();
-      var currentMinute = date.getMinutes();
-      currentSlot = (currentHour * 60) + currentMinute;
-
-      var startSlot = currentSlot - 40;
-
+      
+     
       $(function () {
+        var now = new Date();
+        var currentSlot = Date.UTC(now.getYear(), now.getMonth(), now.getDay(), now.getHours(), now.getMinutes());
+        var startSlot = Date.UTC(now.getYear(), now.getMonth(), now.getDay(), now.getHours()-1, now.getMinutes());
         var chart = $('#highcharts').highcharts();
+        
         chart.xAxis[0].removePlotBand('pastBand');
         chart.xAxis[0].removePlotLine('currentLine');
 
@@ -132,20 +167,20 @@ var Graph = React.createClass({
           },
           from: startSlot,
           to: currentSlot,
-          zIndex: 1101
+          zIndex: 50
         })
-
+        
         chart.xAxis[0].addPlotLine({
            id: 'currentLine',
            color: 'red',
            label: {
-             text: 'Current consumption',
+             text: 'Usage Now',
              verticalAlign: 'middle',
              textAlign: 'center'
            },
            value: currentSlot,
            width: 3,
-           zIndex: 1105
+           zIndex: 60
         })
 
       })
