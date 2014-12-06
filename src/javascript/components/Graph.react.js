@@ -6,8 +6,6 @@ var Graph = React.createClass({
 
   render: function() {
 
-    console.log(this.props)
-
     var baseLineData = [];
     var maskingData = [];
     var consumptionData = [];

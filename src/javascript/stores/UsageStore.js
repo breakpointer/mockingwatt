@@ -17,7 +17,11 @@ function _addUsageData(data) {
   var currentMinute = date.getMinutes();
   currentSlot = (currentHour * 60) + currentMinute;
 
-  _usageSlot = $.grep(data, function(e){ return e.slot == currentSlot;});
+  
+  var matches = $.grep(data, function(e){ return e.slot == currentSlot;});
+  if (matches.length > 0){
+    _usageSlot = matches[0];
+  }
 
   _usageData = data;
 }

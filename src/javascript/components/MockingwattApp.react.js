@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 
 var Graph = require('./Graph.react');
+var WattUsage = require('./WattUsage.react');
 var UsageStore = require('../stores/UsageStore');
 var ScopeStore = require('../stores/ScopeStore');
 var React = require('react');
@@ -44,7 +45,7 @@ var MockingwattApp = React.createClass({
       <div className="sillyContainer">
         <img className="meterImg" src="images/energy-meter.jpg" />
         <h1 className="pageHeader">Mockingwatt - Artificial Load profile </h1>
-        <h3>Current consumption: <span id='consumptionValue'>{this.state.usageSlot.value}</span> kW</h3>
+        <WattUsage />
         <Graph
           usageData={this.state.usageData}
           usageSlot={this.state.usageSlot}
