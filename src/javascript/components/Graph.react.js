@@ -16,7 +16,7 @@ var Graph = React.createClass({
       
       var slot = this.props.usageData[i].slot;
       var now = new Date();
-      var timestamp = Date.UTC(now.getYear(), now.getMonth(), now.getDay(), Math.floor(slot/60), (slot % 60));
+      var timestamp = Date.UTC(now.getFullYear(), now.getMonth(), now.getDay(), Math.floor(slot/60), (slot % 60));
       var bias = this.props.usageData[i].bias;
       var value = this.props.usageData[i].value;
       
@@ -61,6 +61,7 @@ var Graph = React.createClass({
             text: "Time",
             margin: 20,
             style: {
+              display: "none",
               fontWeight: "bold",
               fontSize: "1.8em"
             }
@@ -74,7 +75,7 @@ var Graph = React.createClass({
               fontWeight: "bold",
               fontSize: "1.8em",
             }
-          }
+          },
         },
         tooltip: {
           dateTimeLabelFormats: {
@@ -102,7 +103,7 @@ var Graph = React.createClass({
           area: {
             fillOpacity: 1.0,
             lineWidth: 1,
-            lineColor: '#fafafa',
+            lineColor: '#333',
             pointInterval: 1000 // one minute
           }
         },
@@ -113,28 +114,33 @@ var Graph = React.createClass({
           color: '#b32b22',
           data: consumptionData,
           index: 10,
+          enableMouseTracking: false //turn off tooltip
         },
         {
           type: 'area',
           name: 'Baseline',
           color: '#1c9632',
           data: baseLineData,
-          index: 20
+          index: 20,
+          enableMouseTracking: false //turn off tooltip
         },
         {
           type: 'area',
           name: 'Graph Mask',
-          color: '#fff',
+          color: '#fafcc5',
           data: maskingData,
-          index: 30
+          index: 30,
+          enableMouseTracking: false //turn off tooltip
         },
         {
+          id: 'total_consumption',
           type: 'line',
           name: 'Energy Consumption',
           color: '#333',
           data: consumptionData,
-          lineWidth: 3,
-          index: 40
+          lineWidth: 1.5,
+          index: 40,
+          enableMouseTracking: true //turn ON tooltip here only
         }]
       });
     });
@@ -151,35 +157,58 @@ var Graph = React.createClass({
       
      
       $(function () {
-        var now = new Date();
-        var currentSlot = Date.UTC(now.getYear(), now.getMonth(), now.getDay(), now.getHours(), now.getMinutes());
-        var startSlot = Date.UTC(now.getYear(), now.getMonth(), now.getDay(), now.getHours()-1, now.getMinutes());
         var chart = $('#highcharts').highcharts();
         
+        var now = new Date();
+        var currentSlot = Date.UTC(now.getFullYear(), now.getMonth(), now.getDay(), now.getHours(), now.getMinutes());
+        
+        var consumptionData = chart.get('total_consumption').data;
+      
+        // Getting the consumption data from the graph to update the plotbands
+        var firstValue = consumptionData[0];
+        var startSlot = 0;
+        if (isNaN(firstValue.x)) {
+          startSlot = Date.UTC(now.getFullYear(), now.getMonth(), now.getDay(), now.getHours()-1, now.getMinutes());
+        }
+        else{
+          startSlot = firstValue.x;
+        }
+       
         chart.xAxis[0].removePlotBand('pastBand');
         chart.xAxis[0].removePlotLine('currentLine');
 
         chart.xAxis[0].addPlotBand({
           id: 'pastBand',
-          color: 'rgba(128,128,128,0.5)',
+          color: 'rgba(210,210,210,0.5)',
           label: {
-            text: 'Past consumption'
+            text: 'Past consumption',
+            style: {
+              fontSize: '1.3em',
+              padding: '5px'
+            }
           },
           from: startSlot,
           to: currentSlot,
-          zIndex: 50
+          zIndex: 1,
         })
-        
+        var matches = $.grep(consumptionData, function(e) { return e.x == currentSlot });
+        var consumptionNow = '';
+        if (matches.length > 0){
+          consumptionNow = matches[0].y.toFixed(2) + ' kW';
+        }
         chart.xAxis[0].addPlotLine({
            id: 'currentLine',
-           color: 'red',
+           color: 'rgba(217,217,217,1.0)',
            label: {
-             text: 'Usage Now',
-             verticalAlign: 'middle',
-             textAlign: 'center'
+             text: 'Now - '+consumptionNow,
+             x: -5,
+             y: 5,
+             style: {
+              fontSize: '1.3em',
+             }
            },
            value: currentSlot,
-           width: 3,
+           width: 18,
            zIndex: 60
         })
 
