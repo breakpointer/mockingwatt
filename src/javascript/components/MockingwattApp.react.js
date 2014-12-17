@@ -43,8 +43,6 @@ var MockingwattApp = React.createClass({
     // The highcharts div is a total hack because jquery has to be called after render, and then data doesnt update, and kittens cry. Not at all how react should work but an easy hack for now.
     return (
       <div className="sillyContainer">
-        <img className="meterImg" src="images/energy-meter.jpg" />
-        <h1 className="pageHeader">Mockingwatt - Artificial Load profile </h1>
         <WattUsage />
         <Graph
           usageData={this.state.usageData}

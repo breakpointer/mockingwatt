@@ -108,8 +108,8 @@ var Graph = React.createClass({
         series: [
         {
           type: 'area',
-          name: 'Consumption',
-          color: '#b32b22',
+          name: 'Consumption', 
+          color: '#b32b22', // red usage above
           data: consumptionData,
           index: 10,
           enableMouseTracking: false //turn off tooltip
@@ -117,7 +117,7 @@ var Graph = React.createClass({
         {
           type: 'area',
           name: 'Baseline',
-          color: '#1c9632',
+          color: '#1c9632', // green usage below
           data: baseLineData,
           index: 20,
           enableMouseTracking: false //turn off tooltip
@@ -125,7 +125,7 @@ var Graph = React.createClass({
         {
           type: 'area',
           name: 'Graph Mask',
-          color: '#fafcc5',
+          color: '#fff081', //Main graph color
           data: maskingData,
           index: 30,
           enableMouseTracking: false //turn off tooltip
@@ -134,7 +134,7 @@ var Graph = React.createClass({
           id: 'total_consumption',
           type: 'line',
           name: 'Energy Consumption',
-          color: '#333',
+          color: '#333', // the trend line 
           data: consumptionData,
           lineWidth: 1.5,
           index: 40,
@@ -143,8 +143,31 @@ var Graph = React.createClass({
       });
     });
 
+    var consumeStyle = {
+      color: '#333',
+      left: '80px',
+      position: 'relative',
+      fontSize: '47px',
+      padding: '20px 10px 10px 10px'
+    };
+     
+    var wattStyle = {
+      color: '#333',
+      padding: '0px',
+    };
+    
+    var labelStyle = {
+      color: '#999',
+      padding: '3px',
+      fontSize: '20px',
+    };
+ 
+   
     return (
-      <div id="foo">
+      <div style={consumeStyle} id="consumption">
+        <span style={labelStyle}>usage now</span>
+        <span style={wattStyle} id="currentConsumption" className="energy">
+        </span>
       </div>
     );
   },
@@ -153,13 +176,11 @@ var Graph = React.createClass({
 
     var makePlotBar = function() {
       
-     
       $(function () {
         var chart = $('#highcharts').highcharts();
         
         var now = new Date();
         var currentSlot = Date.UTC(now.getFullYear(), now.getMonth(), now.getDay(), now.getHours(), now.getMinutes());
-        
         var consumptionData = chart.get('total_consumption').data;
       
         // Getting the consumption data from the graph to update the plotbands
@@ -177,37 +198,39 @@ var Graph = React.createClass({
 
         chart.xAxis[0].addPlotBand({
           id: 'pastBand',
-          color: 'rgba(210,210,210,0.5)',
+          color: 'rgba(210,210,210,0.4)',
           label: {
             text: 'Past consumption',
             style: {
               fontSize: '1.3em',
-              padding: '5px'
+              padding: '5px',
+              color: '#999999'
             }
           },
           from: startSlot,
           to: currentSlot,
-          zIndex: 1,
+          zIndex: 1000,
         })
         var matches = $.grep(consumptionData, function(e) { return e.x == currentSlot });
         var consumptionNow = '';
         if (matches.length > 0){
           consumptionNow = matches[0].y.toFixed(2) + ' kW';
+          // Update the current consumption widget too
+          $('#currentConsumption').html(consumptionNow);
         }
         chart.xAxis[0].addPlotLine({
            id: 'currentLine',
-           color: 'rgba(217,217,217,1.0)',
+           color: 'rgba(235,127,84,1.0)',
            label: {
-             text: 'Now - '+consumptionNow,
-             x: -5,
-             y: 5,
+             text: 'Now',
              style: {
               fontSize: '1.3em',
+              color: '#eb7f54'
              }
            },
            value: currentSlot,
-           width: 18,
-           zIndex: 60
+           width: 2,
+           zIndex: 1001
         })
 
       })

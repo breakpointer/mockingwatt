@@ -47,7 +47,7 @@ describe('The API', function(){
   describe('/usage', function (){
     
     before(function (done){
-      redis = 
+      redis = ''; 
     });
     
     describe('GET', function (){
