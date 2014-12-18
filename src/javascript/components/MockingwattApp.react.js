@@ -74,13 +74,13 @@ var MockingwattApp = React.createClass({
           <DecreaseButton onClick={this.decrement} fillColor='#ffffff' />
         </div>
         <div id="resources">
-        <WaterUsage fillColor="#333"/>
-        <ElectricityUsage fillColor="#333" />
-        <NatGasUsage fillColor="#333" innerFillColor="#ffffff" />
+          <WaterUsage fillColor="#333"/>
+          <ElectricityUsage fillColor="#333" />
+          <NatGasUsage fillColor="#333" innerFillColor="#ffffff" />
         </div>
         <div id="environment">
-        <InternalTemperature fillColor="#333" />
-        <InternalLighting fillColor="#333" />
+          <InternalTemperature fillColor="#333" />
+          <InternalLighting fillColor="#333" />
         </div>
       </div>
     );

@@ -5358,3 +5358,11 @@ disabled look for disabled choices in the results dropdown
   padding-left: 3.236rem;
   padding-right: 3.236rem;
 }
+
+#resources {
+  margin: 70px;
+}
+
+#environment {
+  margin: 70px;
+}
