@@ -5,6 +5,12 @@ var Building = require('./Building.react');
 var ResetButton = require('./ResetButton.react');
 var DecreaseButton = require('./DecreaseButton.react');
 var IncreaseButton = require('./IncreaseButton.react');
+var ElectricityUsage = require('./ElectricityUsage.react');
+var NatGasUsage = require('./NatGasUsage.react');
+var WaterUsage = require('./WaterUsage.react');
+var InternalTemperature = require('./InternalTemperature.react');
+var InternalLighting = require('./InternalLighting.react');
+
 var UsageStore = require('../stores/UsageStore');
 var ScopeStore = require('../stores/ScopeStore');
 var React = require('react');
@@ -48,9 +54,6 @@ var MockingwattApp = React.createClass({
       buttonBlock: {
         marginLeft: "80px"
       },
-      buildingBlock: {
-        margin: "10px",
-      },
       graphBlock: {
       }
     };
@@ -59,20 +62,26 @@ var MockingwattApp = React.createClass({
     return (
       <div className="sillyContainer">
         <Building />
-        <div id="buildingBlock" style={styles.buildingBlock}></div>
         <div id="graphBlock" style={styles.graphBlock}>
           <Graph
             usageData={this.state.usageData}
             usageSlot={this.state.usageSlot}
           />
-         <div id="highcharts"></div>
         </div> 
         <div id="functionBlock" style={styles.buttonBlock}>
           <ResetButton onClick={this.reset} />
           <IncreaseButton onClick={this.increment} fillColor='#ffffff' />
           <DecreaseButton onClick={this.decrement} fillColor='#ffffff' />
         </div>
-
+        <div id="resources">
+        <WaterUsage fillColor="#333"/>
+        <ElectricityUsage fillColor="#333" />
+        <NatGasUsage fillColor="#333" innerFillColor="#ffffff" />
+        </div>
+        <div id="environment">
+        <InternalTemperature fillColor="#333" />
+        <InternalLighting fillColor="#333" />
+        </div>
       </div>
     );
   },

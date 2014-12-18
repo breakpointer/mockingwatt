@@ -5339,8 +5339,8 @@ disabled look for disabled choices in the results dropdown
 }
 
 .sillyContainer {
-  padding-left: 3.236rem;
-  padding-right: 3.236rem;
+  padding: 0px;
+  background-color: "#f0f0f0";
 }
 
 .sillyContainer img {
@@ -5352,4 +5352,9 @@ disabled look for disabled choices in the results dropdown
 
 .sillyContainer h1 {
   line-height: 6.472rem;
+}
+
+#highcharts {
+  padding-left: 3.236rem;
+  padding-right: 3.236rem;
 }

@@ -4,9 +4,14 @@ var React = require('react');
 
 var Building = React.createClass({
   render: function() {
+    var buildingStyles = {
+      margin: "0px",
+      padding: "0px",
+      width: "100%",
+      height: "300px",
+    };
     return (
-      <div id='foo'>
-      </div>
+      <div id="buildingBlock" style={buildingStyles}></div>
     );
   },
   componentDidMount: function() {
@@ -22,8 +27,8 @@ var Building = React.createClass({
 
       var mouseX = 0;
       var mouseXOnMouseDown = 0;
-      var windowWidth = 500;
-      var windowHeight = 400;
+      var windowWidth = $('#buildingBlock').width();
+      var windowHeight = $('#buildingBlock').height();
       var windowHalfX = windowWidth / 2;
       var windowHalfY = windowHeight / 2;
       
@@ -98,23 +103,23 @@ var Building = React.createClass({
 
         //
 
-        // window.addEventListener( 'resize', onWindowResize, false );
+        window.addEventListener( 'resize', onWindowResize, false );
 
       }
 
-      // function onWindowResize() {
+      function onWindowResize() {
 
-      //   windowHalfX = window.innerWidth / 2;
-      //   windowHalfY = window.innerHeight / 2;
+        windowHalfX = window.innerWidth / 2;
+        windowHalfY = window.innerHeight / 2;
 
-      //   camera.aspect = window.innerWidth / window.innerHeight;
-      //   camera.updateProjectionMatrix();
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
 
-      //   renderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.setSize( window.innerWidth, window.innerHeight );
 
-      // }
+      }
 
-      //
+      
 
       function onDocumentMouseDown( event ) {
 

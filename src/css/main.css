@@ -1,8 +1,8 @@
 @import "lucid-style";
 
 .sillyContainer {
-  padding-left: calc(2 * var(--lineHeight-base));
-  padding-right: calc(2 * var(--lineHeight-base));
+  padding: 0px;
+  background-color: "#f0f0f0";
 }
 
 .sillyContainer img {
@@ -14,4 +14,9 @@
 
 .sillyContainer h1 {
   line-height: calc(4 * var(--lineHeight-base));
+}
+
+#highcharts {
+  padding-left: calc(2 * var(--lineHeight-base));
+  padding-right: calc(2 * var(--lineHeight-base));
 }

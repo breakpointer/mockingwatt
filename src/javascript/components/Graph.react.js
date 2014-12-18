@@ -164,10 +164,13 @@ var Graph = React.createClass({
  
    
     return (
-      <div style={consumeStyle} id="consumption">
-        <span style={labelStyle}>usage now</span>
-        <span style={wattStyle} id="currentConsumption" className="energy">
-        </span>
+      <div>
+        <div style={consumeStyle} id="consumption">
+          <span style={labelStyle}>usage now</span>
+          <span style={wattStyle} id="currentConsumption" className="energy">
+          </span>
+        </div>
+        <div id="highcharts"></div>
       </div>
     );
   },
