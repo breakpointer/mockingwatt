@@ -2,6 +2,9 @@
 
 var Graph = require('./Graph.react');
 var WattUsage = require('./WattUsage.react');
+var ResetButton = require('./ResetButton.react');
+var DecreaseButton = require('./DecreaseButton.react');
+var IncreaseButton = require('./IncreaseButton.react');
 var UsageStore = require('../stores/UsageStore');
 var ScopeStore = require('../stores/ScopeStore');
 var React = require('react');
@@ -39,7 +42,9 @@ var MockingwattApp = React.createClass({
     ScopeStore.removeChangeListener(this._onChange);
   },
 
+
   render: function() {
+    
     // The highcharts div is a total hack because jquery has to be called after render, and then data doesnt update, and kittens cry. Not at all how react should work but an easy hack for now.
     return (
       <div className="sillyContainer">
@@ -49,9 +54,9 @@ var MockingwattApp = React.createClass({
           usageSlot={this.state.usageSlot}
         />
         <div id="highcharts"></div>
-        <button className="btn btn-lg btn-info" onClick={this.reset} >Reset</button>
-        <button className="btn btn-lg btn-warning" onClick={this.decrement} > Reduce Energy Usage</button>
-        <button className="btn btn-lg btn-success" onClick={this.increment} > Increase Energy Usage</button>
+        <ResetButton onClick={this.reset} />
+        <IncreaseButton onClick={this.increment} fillColor='#ffffff' />
+        <DecreaseButton onClick={this.decrement} fillColor='#ffffff' />
       </div>
     );
   },
