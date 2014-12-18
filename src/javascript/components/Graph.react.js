@@ -68,7 +68,7 @@ var Graph = React.createClass({
         yAxis: {
           title: {
             text: "kW",
-            margin: 15,
+            margin: 5,
             style: {
               fontWeight: "bold",
               fontSize: "1.8em",
@@ -225,7 +225,8 @@ var Graph = React.createClass({
              text: 'Now',
              style: {
               fontSize: '1.3em',
-              color: '#eb7f54'
+              color: '#eb7f54',
+              fontWeight: 'bold'
              }
            },
            value: currentSlot,

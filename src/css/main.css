@@ -1,8 +1,8 @@
 @import "lucid-style";
 
 .sillyContainer {
-	padding-left: calc(2 * var(--lineHeight-base));
-	padding-right: calc(2 * var(--lineHeight-base));
+  padding-left: calc(2 * var(--lineHeight-base));
+  padding-right: calc(2 * var(--lineHeight-base));
 }
 
 .sillyContainer img {

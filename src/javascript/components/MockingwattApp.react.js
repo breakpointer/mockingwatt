@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 var Graph = require('./Graph.react');
-var WattUsage = require('./WattUsage.react');
+var Building = require('./Building.react');
 var ResetButton = require('./ResetButton.react');
 var DecreaseButton = require('./DecreaseButton.react');
 var IncreaseButton = require('./IncreaseButton.react');
@@ -44,19 +44,35 @@ var MockingwattApp = React.createClass({
 
 
   render: function() {
+    var styles = {
+      buttonBlock: {
+        marginLeft: "80px"
+      },
+      buildingBlock: {
+        margin: "10px",
+      },
+      graphBlock: {
+      }
+    };
     
     // The highcharts div is a total hack because jquery has to be called after render, and then data doesnt update, and kittens cry. Not at all how react should work but an easy hack for now.
     return (
       <div className="sillyContainer">
-        <WattUsage />
-        <Graph
-          usageData={this.state.usageData}
-          usageSlot={this.state.usageSlot}
-        />
-        <div id="highcharts"></div>
-        <ResetButton onClick={this.reset} />
-        <IncreaseButton onClick={this.increment} fillColor='#ffffff' />
-        <DecreaseButton onClick={this.decrement} fillColor='#ffffff' />
+        <Building />
+        <div id="buildingBlock" style={styles.buildingBlock}></div>
+        <div id="graphBlock" style={styles.graphBlock}>
+          <Graph
+            usageData={this.state.usageData}
+            usageSlot={this.state.usageSlot}
+          />
+         <div id="highcharts"></div>
+        </div> 
+        <div id="functionBlock" style={styles.buttonBlock}>
+          <ResetButton onClick={this.reset} />
+          <IncreaseButton onClick={this.increment} fillColor='#ffffff' />
+          <DecreaseButton onClick={this.decrement} fillColor='#ffffff' />
+        </div>
+
       </div>
     );
   },
