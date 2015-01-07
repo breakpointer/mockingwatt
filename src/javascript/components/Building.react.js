@@ -108,14 +108,16 @@ var Building = React.createClass({
       }
 
       function onWindowResize() {
+        
+        var windowWidth = $('#buildingBlock').width();
+        var windowHeight = $('#buildingBlock').height();
+        windowHalfX = windowWidth / 2;
+        windowHalfY = windowHeight / 2;
 
-        windowHalfX = window.innerWidth / 2;
-        windowHalfY = window.innerHeight / 2;
-
-        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.aspect = windowWidth / windowHeight;
         camera.updateProjectionMatrix();
 
-        renderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.setSize( windowWidth, windowHeight );
 
       }
 

@@ -36,7 +36,9 @@ var Graph = React.createClass({
     $(function () {
       $('#highcharts').highcharts({
         chart: {
+          height: 300,
           style: {
+            paddingBottom: "10px",
             fontFamily: 'Avenir-Medium'
           }
         },

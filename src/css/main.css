@@ -21,10 +21,19 @@
   padding-right: calc(2 * var(--lineHeight-base));
 }
 
-#resources {
-  margin: 70px;
+/* The resource tiles are here but the resource block styles are in the react component */
+#resources div{
+  margin-bottom: 10px;
+  background-color: #fff;
+  border: 1px solid #999;
+  border-radius: 5px;
+  box-shadow: 3px 3px 5px #aaa;
 }
 
-#environment {
-  margin: 70px;
+#environment div {
+  margin-bottom: 10px;
+  background-color: #fff;
+  border: 1px solid #999;
+  border-radius: 5px;
+  box-shadow: 3px 3px 5px #aaa;
 }

@@ -55,7 +55,18 @@ var MockingwattApp = React.createClass({
         marginLeft: "80px"
       },
       graphBlock: {
+      },
+      resourcesBlock: {
+        position: "absolute",
+        top: "15px",
+        left: "20px"
+      },
+      environmentBlock: {
+        position: "absolute",
+        top: "15px",
+        right: "20px" 
       }
+      
     };
     
     // The highcharts div is a total hack because jquery has to be called after render, and then data doesnt update, and kittens cry. Not at all how react should work but an easy hack for now.
@@ -73,12 +84,12 @@ var MockingwattApp = React.createClass({
           <IncreaseButton onClick={this.increment} fillColor='#ffffff' />
           <DecreaseButton onClick={this.decrement} fillColor='#ffffff' />
         </div>
-        <div id="resources">
-          <WaterUsage fillColor="#333"/>
-          <ElectricityUsage fillColor="#333" />
-          <NatGasUsage fillColor="#333" innerFillColor="#ffffff" />
+        <div id="resources" style={styles.resourcesBlock}>
+          <WaterUsage fillColor="#4a48f5"/>
+          <ElectricityUsage fillColor="#eff00d" />
+          <NatGasUsage fillColor="#f39d1c" innerFillColor="#ffffff" />
         </div>
-        <div id="environment">
+        <div id="environment" style={styles.environmentBlock}>
           <InternalTemperature fillColor="#333" />
           <InternalLighting fillColor="#333" />
         </div>
