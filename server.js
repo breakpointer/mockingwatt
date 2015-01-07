@@ -150,6 +150,7 @@ app.route('/usage')
       });
       break;
     default:
+      return res.json({"status":"error", "message": action + " is unknown"})
       // do nothing
   }
 });

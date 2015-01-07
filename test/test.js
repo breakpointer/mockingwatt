@@ -94,25 +94,69 @@ describe('The API', function(){
     }); // GET
     
     describe('POST', function (){
-     describe('when action is "reset"', function (){ 
-       
-       it('returns okay status');
-       it('has a "reset" message');
-       it('has set the slot values to default');
-     });
-     describe('when action is "increase"', function (){ 
-       it('returns okay status');
-       it('has an "increase" message');
-       it('has increased the slot values');
-     });
-     describe('when action is "decrease"', function (){ 
-       it('returns okay status');
-       it('has a "decrease" message');
-       it('has decreased the slot values');
-     });
-     describe('when action is unknown', function (){ 
-     
-     }); 
+      describe('when action is "reset"', function (){ 
+        it('returns okay status, with "reset" message', function (done){
+          server
+            .post('/usage')
+            .send({ action: 'reset' })
+            .expect(200)
+            .end(function (err, res){ 
+              if (err) return done(err);
+              var msg = res.body;
+              msg.should.have.property('status', 'okay');
+              msg.should.have.property('message', 'Usage values reset'); 
+              done();
+            });
+        });
+        it('has set the slot bias to default');
+      });
+      describe('when action is "increase"', function (){ 
+        it('returns okay status, with "increased" message', function (done){
+          server
+            .post('/usage')
+            .send({ action: 'increase' })
+            .expect(200)
+            .end(function (err, res){ 
+              if (err) return done(err);
+              var msg = res.body;
+              msg.should.have.property('status', 'okay');
+              msg.should.have.property('message', 'Usage values increased'); 
+              done();
+            });
+         });
+         it('has increased the bias values');
+      });
+      describe('when action is "decrease"', function (){ 
+        it('returns okay status, with "decreased" message', function (done){
+          server
+            .post('/usage')
+            .send({ action: 'increase' })
+            .expect(200)
+            .end(function (err, res){ 
+              if (err) return done(err);
+              var msg = res.body;
+              msg.should.have.property('status', 'okay');
+              msg.should.have.property('message', 'Usage values increased'); 
+              done();
+            }); 
+        });
+        it('has decreased the bias values');
+      });
+      describe('when action is unknown', function (){ 
+        it('returns okay status, with "decreased" message', function (done){
+          server
+            .post('/usage')
+            .send({ action: 'foo' })
+            .expect(200)
+            .end(function (err, res){ 
+              if (err) return done(err);
+              var msg = res.body;
+              msg.should.have.property('status', 'error');
+              msg.should.have.property('message', 'foo is unknown'); 
+              done();
+            }); 
+        }); 
+      });
     }); //POST
   }); // usage
  
