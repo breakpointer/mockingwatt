@@ -5,6 +5,17 @@ var supertest = require('supertest');
 var app = require('../server.js');
 var server = supertest(app);
 
+// Environment specific services and configurations
+var appServices = require('../lib/app_services.js');
+var envName = 'test';
+var services = appServices.get(process.env, envName);
+
+// Some messages to make sure I'm not brain dead
+console.log('--------------------------'),
+console.log('Make sure redis is running');
+console.log('redis-server --port XXXX');
+console.log('--------------------------'),
+
 describe('The API', function(){
   
   describe('/', function() {
@@ -47,7 +58,13 @@ describe('The API', function(){
   describe('/usage', function (){
     
     before(function (done){
-      redis = ''; 
+      var UsageModel = require('../lib/usage.js');
+      var usage = new UsageModel(services.redis);
+      // ensuring there is data
+      usage.reset(function (err, result){
+        if (err) return done(err);
+        done(); 
+      }); 
     });
     
     describe('GET', function (){
@@ -77,7 +94,25 @@ describe('The API', function(){
     }); // GET
     
     describe('POST', function (){
-      
+     describe('when action is "reset"', function (){ 
+       
+       it('returns okay status');
+       it('has a "reset" message');
+       it('has set the slot values to default');
+     });
+     describe('when action is "increase"', function (){ 
+       it('returns okay status');
+       it('has an "increase" message');
+       it('has increased the slot values');
+     });
+     describe('when action is "decrease"', function (){ 
+       it('returns okay status');
+       it('has a "decrease" message');
+       it('has decreased the slot values');
+     });
+     describe('when action is unknown', function (){ 
+     
+     }); 
     }); //POST
   }); // usage
  

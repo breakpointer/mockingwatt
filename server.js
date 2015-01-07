@@ -78,7 +78,8 @@ app.route('/readings')
 // way up to midnight (slot 1440). The usage `values` are set external to the API and reflect the 
 // baseline usage for this ficticious meter. The `bias` numbers are set by the client. The
 // change when the client posts to the endpoint with an increase, decrease, or reset action.
-// 
+// Usage is essentially a circular buffer.
+//  
 // == GET requests to this end point will return usage data
 // == The default request will return 100 time slots based on the current server time going forward.
 // == params:
