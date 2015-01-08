@@ -155,6 +155,33 @@ app.route('/usage')
   }
 });
 
+
+app.route('/totals')
+.get(function (req, res, next){
+  console.log('GET /totals ', inspect(req.query));
+  var sumFun = function (sumObj, slotObj){
+    if (sumObj.hasOwnProperty("usage")){
+      sumObj['usage'] += (slotObj['value'] + slotObj['bias']);
+    } else {
+      sumObj['usage'] = 0;
+    }
+    if (sumObj.hasOwnProperty("baseline")){
+      sumObj['baseline'] += slotObj['value'];
+    } else {
+      sumObj['baseline'] = 0;
+    }
+    if (sumObj.hasOwnProperty("bias")){
+      sumObj['bias'] += slotObj['bias'];
+    } else {
+      sumObj['bias'] = 0;
+    }
+  };
+  usage.calculate(sumFun, function (err, results) {
+    if (err) return res.sendStatus(500); 
+    return res.json(results);
+  });
+});
+
 http.createServer(app).listen(process.env.PORT || 3001);
 
 module.exports = app;

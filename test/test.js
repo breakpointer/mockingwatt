@@ -18,6 +18,10 @@ console.log('--------------------------'),
 
 describe('The API', function(){
   
+  after(function (){
+    services.redis.quit();
+  })
+  
   describe('/', function() {
     it('returns a 200', function (done){
       server.get('/').expect(200, done);
@@ -56,6 +60,8 @@ describe('The API', function(){
   }); // meters
   
   describe('/usage', function (){
+    
+    var usage = null;
     
     before(function (done){
       var UsageModel = require('../lib/usage.js');
@@ -108,7 +114,17 @@ describe('The API', function(){
               done();
             });
         });
-        it('has set the slot bias to default');
+        it('has set the slot bias to zeros', function (done){
+          server
+            .get('/totals')
+            .expect(200)
+            .end(function (err, res){
+              if (err) return done(err);
+              var tots = res.body;
+              tots.should.have.property('bias',0);
+              done();
+            })
+        });
       });
       describe('when action is "increase"', function (){ 
         it('returns okay status, with "increased" message', function (done){
@@ -124,23 +140,21 @@ describe('The API', function(){
               done();
             });
          });
-         it('has increased the bias values');
       });
-      describe('when action is "decrease"', function (){ 
+      describe('when action is "decrease"', function (){
         it('returns okay status, with "decreased" message', function (done){
           server
             .post('/usage')
-            .send({ action: 'increase' })
+            .send({ action: 'decrease' })
             .expect(200)
             .end(function (err, res){ 
               if (err) return done(err);
               var msg = res.body;
               msg.should.have.property('status', 'okay');
-              msg.should.have.property('message', 'Usage values increased'); 
+              msg.should.have.property('message', 'Usage values decreased'); 
               done();
             }); 
         });
-        it('has decreased the bias values');
       });
       describe('when action is unknown', function (){ 
         it('returns okay status, with "decreased" message', function (done){
