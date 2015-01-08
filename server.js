@@ -156,6 +156,9 @@ app.route('/usage')
 });
 
 
+// Calculates the totals for slots
+// Accepts param 'slot' to calculate to a particular slot in time
+// else it will calculate up until current slot time.
 app.route('/totals')
 .get(function (req, res, next){
   console.log('GET /totals ', inspect(req.query));
@@ -176,7 +179,16 @@ app.route('/totals')
       sumObj['bias'] = 0;
     }
   };
-  usage.calculate(sumFun, function (err, results) {
+  var toSlot = 0;
+  if (req.query['slot']){ 
+    toSlot = parseInt(req.query['slot']);
+  } else { 
+    var date = new Date();
+    var currentHour = date.getHours();
+    var currentMinute = date.getMinutes();
+    toSlot = (currentHour * 60) + currentMinute;
+  } 
+  usage.calculate(sumFun, toSlot, function (err, results) {
     if (err) return res.sendStatus(500); 
     return res.json(results);
   });
