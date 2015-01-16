@@ -128,11 +128,18 @@ app.route('/usage')
   } 
   
   switch(action) {
+    case 'regenerate':
+      // Reset the usage values 
+      usage.regenerate(function (err, result){
+        if (err) return res.sendStatus(500);
+        return res.json({"status":"okay", "message": "All baseline values regenerated and bias values reset"})
+      });
+      break;
     case 'reset':
       // Reset the usage values 
       usage.reset(function (err, result){
         if (err) return res.sendStatus(500);
-        return res.json({"status":"okay", "message": "Usage values reset"})
+        return res.json({"status":"okay", "message": "All usage values reset"})
       });
       break;
     case 'increase':

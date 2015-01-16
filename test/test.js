@@ -67,7 +67,7 @@ describe('The API', function(){
       var UsageModel = require('../lib/usage.js');
       var usage = new UsageModel(services.redis);
       // ensuring there is data
-      usage.reset(function (err, result){
+      usage.regenerate(function (err, result){
         if (err) return done(err);
         done(); 
       }); 
@@ -110,7 +110,6 @@ describe('The API', function(){
               if (err) return done(err);
               var msg = res.body;
               msg.should.have.property('status', 'okay');
-              msg.should.have.property('message', 'Usage values reset'); 
               done();
             });
         });
@@ -136,7 +135,6 @@ describe('The API', function(){
               if (err) return done(err);
               var msg = res.body;
               msg.should.have.property('status', 'okay');
-              msg.should.have.property('message', 'Usage values increased'); 
               done();
             });
          });
@@ -151,7 +149,6 @@ describe('The API', function(){
               if (err) return done(err);
               var msg = res.body;
               msg.should.have.property('status', 'okay');
-              msg.should.have.property('message', 'Usage values decreased'); 
               done();
             }); 
         });
@@ -166,7 +163,6 @@ describe('The API', function(){
               if (err) return done(err);
               var msg = res.body;
               msg.should.have.property('status', 'error');
-              msg.should.have.property('message', 'foo is unknown'); 
               done();
             }); 
         }); 
