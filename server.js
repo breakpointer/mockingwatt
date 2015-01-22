@@ -24,18 +24,23 @@ var services = appServices.get(process.env, envName);
 var UsageModel = require('./lib/usage.js');
 var usage = new UsageModel(services.redis);
 
+app.logger = function(){
+  if (process.env.ENV_NAME != 'test'){
+    console.log.apply(this, arguments);
+  }
+}
 // Serving up the client side app
 // The root page loads all the react code 
 app.route('/')
 .get(function (req, res, next){
-  console.log('GET /');
+  app.logger('GET /');
   return res.render('index');
 })
 
 // Only one meter for now
 app.route('/meters')
 .get(function (req, res, next){
-  console.log('GET /meters')
+  app.logger('GET /meters')
   return res.json([
     {
       "id": 1,
@@ -56,7 +61,7 @@ app.route('/meters')
 // ==   `limit`: Number of records to return, default 100
 app.route('/readings')
 .get(function (req, res, next){
-  console.log('GET /readings ', inspect(req.params));
+  app.logger('GET /readings ', inspect(req.params));
   
   var readings = [];
   var readingCount = 100;
@@ -92,7 +97,7 @@ app.route('/readings')
 // ==   `slot`: the slot to start the application of the adjustment  
 app.route('/usage')
 .get(function (req, res, next){
-  console.log('GET /usage ', inspect(req.query));
+  app.logger('GET /usage ', inspect(req.query));
   
   // Based on the current sever time we return
   // the slot list from now to 100 minutes from now (unless query override).
@@ -114,7 +119,7 @@ app.route('/usage')
   });
 })
 .post(function (req, res, next){
-  console.log('POST /usage ', inspect(req.body));
+  app.logger('POST /usage ', inspect(req.body));
   var action = req.body.action;
   
   var startSlot = 0;
@@ -168,7 +173,7 @@ app.route('/usage')
 // else it will calculate up until current slot time.
 app.route('/totals')
 .get(function (req, res, next){
-  console.log('GET /totals ', inspect(req.query));
+  app.logger('GET /totals ', inspect(req.query));
   var sumFun = function (sumObj, slotObj){
     if (sumObj.hasOwnProperty("usage")){
       sumObj['usage'] += (slotObj['value'] + slotObj['bias']);
