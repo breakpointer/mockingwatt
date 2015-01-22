@@ -1,3 +1,4 @@
+process.env.ENV_NAME = 'test'
 
 var assert = require('assert');
 var should = require('should');
@@ -7,14 +8,7 @@ var server = supertest(app);
 
 // Environment specific services and configurations
 var appServices = require('../lib/app_services.js');
-var envName = 'test';
-var services = appServices.get(process.env, envName);
-
-// Some messages to make sure I'm not brain dead
-console.log('--------------------------'),
-console.log('Make sure redis is running');
-console.log('redis-server --port XXXX');
-console.log('--------------------------'),
+var services = appServices.get(process.env, 'test');
 
 describe('The API', function(){
   
@@ -169,5 +163,63 @@ describe('The API', function(){
       });
     }); //POST
   }); // usage
+
+  describe('/deliver', function(){
+    describe('POST', function(){
+      
+      it('returns okay status', function(done){
+        server.post('/deliver')
+        .send()
+        .expect(200)
+        .end(function (err,res){
+          if (err) return done(err);
+          res.body.should.have.property('status','okay');
+          done();
+        });
+      });
+    });//POST
+  });// /deliver
  
-});
+});// Server API
+
+describe('BOSMeter', function (){
+  var BOSMeter = require('../lib/bos_meter.js') 
+  
+  describe('the structured payload for BOS', function(){
+    
+    it('has the datasource property', function (){
+      var bm = new BOSMeter([]);
+      var pl = bm.format();
+      pl.should.have.property('datasource', 'bos://buildingos-json/mocking-watt-demo');
+    });
+    
+    it('has the expectedDataResolution property', function (){
+      var pl = (new BOSMeter([])).format();
+      pl.should.have.property('expectedDataResolution');
+    });
+    
+    it('has the meterCatalog', function (){
+     var pl = (new BOSMeter([])).format();
+      pl.should.have.property('meterCatalog'); 
+      var mc = pl['meterCatalog'][0];
+      mc.should.have.property('meterId');
+      mc.should.have.property('meterName');
+      mc.should.have.property('meterUnits');
+      mc.should.have.property('meterDescription');
+    });
+    
+    it('has readings', function (){
+      var readings = [
+        {'timestamp': '2013-01-21T21:37:00', 'value': 1.03}
+      ]
+      var pl = (new BOSMeter(readings)).format();
+      var r = pl['readings'];
+      r.should.have.length(1);
+      r[0].should.have.property('timestamp','2013-01-21T21:37:00');
+      r[0].should.have.property('buildingLocalTime', true);
+      r[0].should.have.property('value', 1.03);
+      r[0].should.have.property('meterId','MockOne');
+    });
+
+  }); 
+}); // BOS Meter
