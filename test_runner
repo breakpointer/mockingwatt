@@ -1,0 +1,20 @@
+#! /bin/bash
+
+if lsof -i  | grep -q -e '^redis.*6380 (LISTEN)$'; then
+  echo "Looks like redis is running on 6380"
+else
+  echo "Starting redis-server on 6380"
+  redis-server --port 6380 &
+fi
+while true;
+do 
+    if lsof -i  | grep -q -e '^redis.*6380 (LISTEN)$'; then
+      echo "Redis started!"
+      break
+    else
+      sleep 2
+    fi
+done
+
+mocha test
+
