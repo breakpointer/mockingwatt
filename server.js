@@ -127,6 +127,7 @@ app.route('/usage')
   if (req.body.slot){ 
     startSlot = parseInt(req.body.slot);
   } else { 
+    // TODO: Works fine locally, not so great on a hosted server
     var date = new Date();
     var currentHour = date.getHours();
     var currentMinute = date.getMinutes();
@@ -218,9 +219,9 @@ app.route('/deliver')
   
   return res.json({'status': 'okay'});
 });
-
-http.createServer(app).listen(process.env.PORT || 3001, function (){
-  console.log('Server started on', process.env.PORT || 3001);
+var lPort = process.env.PORT || 3000;
+http.createServer(app).listen(lPort, function (){
+  console.log('Server started on', lPort);
 });
 
 module.exports = app;

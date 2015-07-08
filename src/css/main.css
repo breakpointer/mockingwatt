@@ -1,4 +1,3 @@
-@import "lucid-style";
 
 .sillyContainer {
   padding: 0px;
@@ -9,16 +8,12 @@
   width: 100;
   height: 100;
   float: left;
-  margin-right: calc(var(--lineHeight-base) / 2);
 }
 
 .sillyContainer h1 {
-  line-height: calc(4 * var(--lineHeight-base));
 }
 
 #highcharts {
-  padding-left: calc(2 * var(--lineHeight-base));
-  padding-right: calc(2 * var(--lineHeight-base));
 }
 
 /* The resource tiles are here but the resource block styles are in the react component */

@@ -4,30 +4,31 @@ var MockingwattWebAPIUtils = require('../utils/MockingwattWebAPIUtils');
 var UsageStore = require('../stores/UsageStore');
 
 var ActionTypes = MockingwattConstants.ActionTypes;
+var mAPI = MockingwattWebAPIUtils;
 
 module.exports = {
 
   getUsage: function() {
-    MockingwattWebAPIUtils.getUsage(MockingwattWebAPIUtils.getScope());
+    mAPI.getUsage(mAPI.getScope());
   },
 
   incrementUsage: function() {
-    MockingwattWebAPIUtils.incrementUsage();
-    MockingwattWebAPIUtils.getUsage(MockingwattWebAPIUtils.getScope());
+    mAPI.incrementUsage(mAPI.currentSlot());
+    mAPI.getUsage(mAPI.getScope());
   },
 
   decrementUsage: function() {
-    MockingwattWebAPIUtils.decrementUsage();
-    MockingwattWebAPIUtils.getUsage(MockingwattWebAPIUtils.getScope());
+    mAPI.decrementUsage(mAPI.currentSlot());
+    mAPI.getUsage(mAPI.getScope());
   },
 
   resetUsage: function() {
-    MockingwattWebAPIUtils.resetUsage();
-    MockingwattWebAPIUtils.getUsage(MockingwattWebAPIUtils.getScope());
+    mAPI.resetUsage();
+    mAPI.getUsage(mAPI.getScope());
   },
   
   regenerateUsage: function() {
-    MockingwattWebAPIUtils.regenerateUsage();
-    MockingwattWebAPIUtils.getUsage(MockingwattWebAPIUtils.getScope());
+    mAPI.regenerateUsage();
+    mAPI.getUsage(mAPI.getScope());
   }
 };
