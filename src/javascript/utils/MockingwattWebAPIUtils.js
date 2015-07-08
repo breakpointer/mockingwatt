@@ -45,6 +45,16 @@ module.exports = {
     });
   },
   
+  regenerateUsage: function() {
+
+    request
+    .post('/usage')
+    .send({ action: 'regenerate' })
+    .end(function(res){
+      console.log("regenerated!")
+    });
+  },
+  
   getScope: function() {
 
     console.log("get scope")

@@ -24,5 +24,10 @@ module.exports = {
   resetUsage: function() {
     MockingwattWebAPIUtils.resetUsage();
     MockingwattWebAPIUtils.getUsage(MockingwattWebAPIUtils.getScope());
+  },
+  
+  regenerateUsage: function() {
+    MockingwattWebAPIUtils.regenerateUsage();
+    MockingwattWebAPIUtils.getUsage(MockingwattWebAPIUtils.getScope());
   }
 };

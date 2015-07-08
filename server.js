@@ -23,6 +23,7 @@ var services = appServices.get(process.env, envName);
 // Models
 var UsageModel = require('./lib/usage.js');
 var usage = new UsageModel(services.redis);
+var BOSMeter = require('./lib/bos_meter.js');
 
 app.logger = function(){
   if (process.env.ENV_NAME != 'test'){
@@ -206,6 +207,20 @@ app.route('/totals')
   });
 });
 
-http.createServer(app).listen(process.env.PORT || 3001);
+// Sends the formated Usage data from the virtual meter
+// to building OS at the configured BOS endpoint. 
+// The BOS_URI is the custom endpoint we post to to push
+// the faked JSON meter data.
+app.route('/deliver')
+.post(function (req, res, next){
+  
+  // Request readings
+  
+  return res.json({'status': 'okay'});
+});
+
+http.createServer(app).listen(process.env.PORT || 3001, function (){
+  console.log('Server started on', process.env.PORT || 3001);
+});
 
 module.exports = app;

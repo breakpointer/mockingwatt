@@ -3,6 +3,7 @@
 var Graph = require('./Graph.react');
 var Building = require('./Building.react');
 var ResetButton = require('./ResetButton.react');
+var RegenerateButton = require('./RegenerateButton.react');
 var DecreaseButton = require('./DecreaseButton.react');
 var IncreaseButton = require('./IncreaseButton.react');
 var ElectricityUsage = require('./ElectricityUsage.react');
@@ -80,6 +81,7 @@ var MockingwattApp = React.createClass({
           />
         </div> 
         <div id="functionBlock" style={styles.buttonBlock}>
+          <RegenerateButton onClick={this.regenerate} />
           <ResetButton onClick={this.reset} />
           <IncreaseButton onClick={this.increment} fillColor='#ffffff' />
           <DecreaseButton onClick={this.decrement} fillColor='#ffffff' />
@@ -97,19 +99,23 @@ var MockingwattApp = React.createClass({
     );
   },
 
-  increment: function() {
+  increment: function () {
     ClientActionCreators.incrementUsage();
   },
 
-  decrement: function() {
+  decrement: function () {
     ClientActionCreators.decrementUsage();
   },  
 
-  reset: function() {
+  reset: function () {
     ClientActionCreators.resetUsage();
   },
+  
+  regenerate: function (){
+    ClientActionCreators.regenerateUsage();
+  },
 
-  _onChange: function() {
+  _onChange: function () {
     this.setState(getStateFromStores());
   }
 
